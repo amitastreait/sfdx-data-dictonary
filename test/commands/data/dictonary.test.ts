@@ -20,7 +20,7 @@ describe('data:dictonary', () => {
         return Promise.resolve({ records: [] });
     })
     .stdout()
-    .command(['data:dictonary', '--targetusername', 'test@org.com'])
+    .command(['data:dictonary', '--targetusername', 'test@org.com', '-o', 'Account,Contact,Lead'])
     .it('runs data:dictonary --targetusername test@org.com --json', (ctx) => {
         expect(ctx.stdout).to.contain(
             ''
