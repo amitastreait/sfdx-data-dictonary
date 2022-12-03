@@ -1,0 +1,16 @@
+{
+  "commandDescription": "print a greeting and your org IDs",
+  "nameFlagDescription": "name to print",
+  "forceFlagDescription": "example boolean flag",
+  "errorNoOrgResults": "No results found for the org '%s'.",
+  "accountNameDescritpion": "name to query",
+  "pathFlagDescription" : "File Name with full Path to create Excel File",
+  "pathDescription" : "Comma Seperated path of the json that contains the data to be imported",
+  "objectFlagDescription" : "Comma Seperated API name of objects to get field metadata Info",
+  "aggregateFlagDescription" : "Use this flag, if you wanted to get the aggregated code coverage by components",
+  "coverageFlagDescription" : "Use this flag, if you wanted to get the code coverage by test methods for components",
+  "examples": [
+    "sfdx hello:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com",
+    "sfdx hello:org --name myname --targetusername myOrg@example.com"
+  ]
+}
