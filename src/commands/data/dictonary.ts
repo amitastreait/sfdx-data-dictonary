@@ -142,6 +142,7 @@ protected static requiresProject = false;
             }
         }
 
+        //this.ux.log(JSON.stringify(combinedMetadata) );
         excelUtil.createFile(filePath, combinedMetadata, this);
         this.ux.log('Excel File created at - '+filePath);
         this.ux.stopSpinner('Export Completed');
