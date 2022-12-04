@@ -5,6 +5,9 @@ import { Messages } from '@salesforce/core';
 
 import { TestCoverageResponse, CodeCoveragetable} from '../../scripts/coverage';
 
+/* import the object of exportFile so that Excel Sheet can be created */
+import excelUtil = require('../../scripts/exportCoverage');
+
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
 
@@ -44,6 +47,10 @@ export default class Org extends SfdxCommand {
             char: 'c',
             description: messages.getMessage('coverageFlagDescription'),
         }),
+        filePath: flags.string({
+            char: 'p',
+            description: messages.getMessage('coveragePathFlagDescription'),
+        })
     };
 
     // Comment this out if your command does not require an org username
@@ -60,9 +67,10 @@ export default class Org extends SfdxCommand {
         // this.org is guaranteed because requiresUsername=true, as opposed to supportsUsername
         const conn = this.org.getConnection();
 		const name = this.flags.name;
+        const filePath = this.flags.filePath || 'CodeCoverageReport.xlsx';
         let query = 'SELECT NumLinesCovered, NumLinesUncovered, Coverage, ApexClassorTrigger.Name FROM ApexCodeCoverageAggregate';
         if(this.flags.coverage){
-            query = 'SELECT ApexTestClassId, NumLinesCovered, NumLinesUncovered, Coverage, ApexClassorTrigger.Name FROM ApexCodeCoverage';
+            query = 'SELECT ApexTestClassId, TestMethodName,NumLinesCovered, NumLinesUncovered, Coverage, ApexClassorTrigger.Name FROM ApexCodeCoverage';
         }
 
 		if(name){
@@ -78,7 +86,8 @@ export default class Org extends SfdxCommand {
             let record: CodeCoveragetable = {
                 ApexClassOrTrigger : element.ApexClassOrTrigger.Name,
                 NumLinesCovered : element.NumLinesCovered,
-                NumLinesUncovered : element.NumLinesUncovered
+                NumLinesUncovered : element.NumLinesUncovered,
+                TestMethodName : element.TestMethodName ? element.TestMethodName : ""
             };
             const covered = element.Coverage.coveredLines;
             const uncovered = element.Coverage.uncoveredLines;
@@ -90,10 +99,10 @@ export default class Org extends SfdxCommand {
             codeCoverage.push(record);
         });
 
-        const tableColumnData = ['ApexClassOrTrigger', 'NumLinesCovered', 'NumLinesUncovered', 'Percentage'];
+        const tableColumnData = ['ApexClassOrTrigger', 'NumLinesCovered', 'NumLinesUncovered', 'Percentage', 'TestMethodName'];
 
         this.ux.table( codeCoverage, tableColumnData );
-
+        excelUtil.createFile(filePath, codeCoverage, this);
         // Return an object to be displayed with --json
         return codeCoverage;
     }

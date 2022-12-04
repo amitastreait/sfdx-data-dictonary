@@ -12,6 +12,7 @@ interface Records{
     NumLinesCovered: number;
     NumLinesUncovered: number;
     Coverage: Coverage;
+    TestMethodName?:string;
     ApexClassOrTrigger: ApexClassOrTrigger;
 }
 
@@ -29,4 +30,5 @@ export interface CodeCoveragetable {
     NumLinesCovered: number;
     NumLinesUncovered: number;
     Percentage?: string
+    TestMethodName?:string;
 }
