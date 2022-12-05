@@ -40,8 +40,8 @@ function TestCoverageTab(wb, codeCoverage : Array<CodeCoveragetable>){
         ws_TestCoverage.cell(rowNum, 1 ).string( coverage.ApexClassOrTrigger ) ;
         ws_TestCoverage.cell(rowNum, 2 ).number( coverage.NumLinesCovered ) ;
         ws_TestCoverage.cell(rowNum, 3 ).number( coverage.NumLinesUncovered ) ;
-        ws_TestCoverage.cell(rowNum, 3 ).string( coverage.TestMethodName ) ;
-        ws_TestCoverage.cell(rowNum, 4 ).number( coverage.Percentage ) ;
+        ws_TestCoverage.cell(rowNum, 4 ).string( coverage.TestMethodName ) ;
+        ws_TestCoverage.cell(rowNum, 5 ).string( coverage.Percentage ) ;
         rowNum++;
     });
 }

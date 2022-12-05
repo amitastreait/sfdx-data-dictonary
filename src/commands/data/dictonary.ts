@@ -21,46 +21,43 @@ Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('sfdx-data-dictonary', 'org');
 
 export default class Dictionary extends SfdxCommand {
-public static description = messages.getMessage('commandDescription');
+    public static description = messages.getMessage('commandDataDictonaryDescription');
 
-public static examples = [`
+    public static examples = [`
+        sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "./path/to/file/file.xlsx"
+        sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
+    `];
 
-    sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "/path/to/file/file.xlsx"
+    public static args = [{ name: 'file' }];
 
-    sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
+    protected static flagsConfig = {
+        // flag with a value (-n, --name=VALUE)
+        name: flags.string({
+            char: 'n',
+            description: messages.getMessage('nameFlagDescription'),
+        }),
+        force: flags.boolean({
+            char: 'f',
+            description: messages.getMessage('forceFlagDescription'),
+        }),
+        path :  flags.string({
+            char: 'p',
+            description: messages.getMessage('pathFlagDescription')
+        }),
+        objects : flags.string({
+            char: 'o',
+            description: messages.getMessage('objectFlagDescription')
+        }),
+    };
 
-`];
+    // Comment this out if your command does not require an org username
+    protected static requiresUsername = true;
 
-public static args = [{ name: 'file' }];
+    // Comment this out if your command does not support a hub org username
+    protected static supportsDevhubUsername = true;
 
-protected static flagsConfig = {
-    // flag with a value (-n, --name=VALUE)
-    name: flags.string({
-        char: 'n',
-        description: messages.getMessage('nameFlagDescription'),
-    }),
-    force: flags.boolean({
-        char: 'f',
-        description: messages.getMessage('forceFlagDescription'),
-    }),
-    path :  flags.string({
-        char: 'p',
-        description: messages.getMessage('pathFlagDescription')
-    }),
-    objects : flags.string({
-        char: 'o',
-        description: messages.getMessage('objectFlagDescription')
-    }),
-};
-
-// Comment this out if your command does not require an org username
-protected static requiresUsername = true;
-
-// Comment this out if your command does not support a hub org username
-protected static supportsDevhubUsername = true;
-
-// Set this to true if your command requires a project workspace; 'requiresProject' is false by default
-protected static requiresProject = false;
+    // Set this to true if your command requires a project workspace; 'requiresProject' is false by default
+    protected static requiresProject = false;
 
     public async run(): Promise<AnyJson> {
         //const name = (this.flags.name || 'world') as string;

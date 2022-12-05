@@ -13,7 +13,7 @@ const messages = Messages.loadMessages('sfdx-data-dictonary', 'org');
 
 export default class Query extends SfdxCommand {
 
-        public static description = messages.getMessage('commandDescription');
+        public static description = messages.getMessage('commandQueryDescription');
 
         public static examples = messages.getMessage('examples').split(os.EOL);
 

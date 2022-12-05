@@ -1,7 +1,7 @@
 import { test } from '@salesforce/command/lib/test'; // expect
 import { ensureJsonMap, ensureString } from '@salesforce/ts-types';
 
-describe('test:coverage', () => {
+describe('code:coverage', () => {
     test.withOrg({ username: 'test@org.com' }, true)
     .withConnectionRequest((request) => {
     const requestMap = ensureJsonMap(request);
@@ -33,8 +33,8 @@ describe('test:coverage', () => {
         return Promise.resolve({ records: [] });
     })
     .stdout()
-    .command(['test:coverage', '--targetusername', 'test@org.com'])
-    .it('runs test:coverage --targetusername test@org.com --json', (ctx) => {
+    .command(['code:coverage', '--targetusername', 'test@org.com'])
+    .it('runs code:coverage --targetusername test@org.com --json', (ctx) => {
 
     });
 });
