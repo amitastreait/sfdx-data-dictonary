@@ -25,8 +25,7 @@ USAGE
 <!-- usagestop -->
 <!-- commands -->
 * [`sfdx data:dictonary [-n <string>] [-f] [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-datadictonary--n-string--f--p-string--o-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-* [`sfdx data:query -q <string> [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-dataquery--q-string--n-string--f--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-* [`sfdx hello:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-helloorg--n-string--f--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+
 * [`sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-codecoverage--n-string--f--a--c--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
 ## `sfdx data:dictonary [-n <string>] [-f] [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
@@ -62,69 +61,6 @@ EXAMPLES
     sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "/path/to/file/file.xlsx"
     sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
 ```
-
-## `sfdx data:query -q <string> [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
-
-Executes the selected query and returns the response
-
-```
-USAGE
-  $ sfdx data:query -q <string> [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json]
-    [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
-
-FLAGS
-  -f, --force                                                                       example boolean flag
-  -n, --name=<value>                                                                name to print
-  -q, --query=<value>                                                               (required) name to query
-  -u, --targetusername=<value>                                                      username or alias for the target
-                                                                                    org; overrides default target org
-  -v, --targetdevhubusername=<value>                                                username or alias for the dev hub
-                                                                                    org; overrides default dev hub org
-  --apiversion=<value>                                                              override the api version used for
-                                                                                    api requests made by this command
-  --json                                                                            format output as json
-  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
-                                                                                    this command invocation
-
-DESCRIPTION
-  Executes the selected query and returns the response
-
-EXAMPLES
-  $ sfdx hello:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com
-  $ sfdx hello:org --name myname --targetusername myOrg@example.com
-```
-
-## `sfdx hello:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
-
-print a greeting and your org IDs
-
-```
-USAGE
-  $ sfdx hello:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel
-    trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
-
-FLAGS
-  -f, --force                                                                       example boolean flag
-  -n, --name=<value>                                                                name to print
-  -u, --targetusername=<value>                                                      username or alias for the target
-                                                                                    org; overrides default target org
-  -v, --targetdevhubusername=<value>                                                username or alias for the dev hub
-                                                                                    org; overrides default dev hub org
-  --apiversion=<value>                                                              override the api version used for
-                                                                                    api requests made by this command
-  --json                                                                            format output as json
-  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
-                                                                                    this command invocation
-
-DESCRIPTION
-  print a greeting and your org IDs
-
-EXAMPLES
-  $ sfdx hello:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com
-
-  $ sfdx hello:org --name myname --targetusername myOrg@example.com
-```
-
 
 ## `sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
