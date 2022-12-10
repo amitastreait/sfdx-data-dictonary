@@ -1,4 +1,4 @@
-sfdx-data-dictonary
+SFDX Data Dictonary
 ===================
 
 this is a custom plugin to generate the data dictonary for the selected objects
@@ -11,11 +11,7 @@ this is a custom plugin to generate the data dictonary for the selected objects
 [![Downloads/week](https://img.shields.io/npm/dw/sfdx-data-dictonary.svg)](https://npmjs.org/package/sfdx-data-dictonary)
 [![License](https://img.shields.io/npm/l/sfdx-data-dictonary.svg)](https://github.com/amitastreait/sfdx-data-dictonary/blob/master/package.json)
 
-<!-- toc -->
-* [Debugging your plugin](#debugging-your-plugin)
-<!-- tocstop -->
-<!-- install -->
-<!-- usage -->
+
 ```sh-session
 $ npm install -g sfdx-data-dictonary
 $ sfdx COMMAND
@@ -25,18 +21,17 @@ sfdx-data-dictonary/0.0.1 win32-x64 node-v16.13.2
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
-...
 ```
 <!-- usagestop -->
 <!-- commands -->
 * [`sfdx data:dictonary [-n <string>] [-f] [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-datadictonary--n-string--f--p-string--o-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 * [`sfdx data:query -q <string> [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-dataquery--q-string--n-string--f--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 * [`sfdx hello:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-helloorg--n-string--f--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-* [`sfdx test:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-testcoverage--n-string--f--a--c--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-codecoverage--n-string--f--a--c--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
 ## `sfdx data:dictonary [-n <string>] [-f] [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
-print a greeting and your org IDs
+generates the metadata for the selected object and exports as slsx format
 
 ```
 USAGE
@@ -61,16 +56,16 @@ FLAGS
                                                                                     this command invocation
 
 DESCRIPTION
-  print a greeting and your org IDs
+  generates the metadata for the selected object and exports as slsx format
 
 EXAMPLES
-      sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "/path/to/file/file.xlsx"
-      sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
+    sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "/path/to/file/file.xlsx"
+    sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
 ```
 
 ## `sfdx data:query -q <string> [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
-print a greeting and your org IDs
+Executes the selected query and returns the response
 
 ```
 USAGE
@@ -92,11 +87,10 @@ FLAGS
                                                                                     this command invocation
 
 DESCRIPTION
-  print a greeting and your org IDs
+  Executes the selected query and returns the response
 
 EXAMPLES
   $ sfdx hello:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com
-
   $ sfdx hello:org --name myname --targetusername myOrg@example.com
 ```
 
@@ -132,13 +126,13 @@ EXAMPLES
 ```
 
 
-## `sfdx test:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+## `sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
-print a greeting and your org IDs
+runs and generate the code coverage in given format
 
 ```
 USAGE
-  $ sfdx test:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json]
+  $ sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json]
     [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 FLAGS
@@ -161,13 +155,16 @@ FLAGS
                                                                                     this command invocation
 
 DESCRIPTION
-  print a greeting and your org IDs
+  runs and generate the code coverage in given format
 
 EXAMPLES
-          sfdx data:coverage -u utils -c
-          sfdx data:coverage -u utils -c --json
-          sfdx data:coverage -u utils -a --json
-          sfdx data:coverage -u utils -a
+    sfdx code:coverage -u username@salesforce.com --aggregate
+    sfdx code:coverage -u username@salesforce.com --aggregate --json
+    sfdx code:coverage -u username@salesforce.com --aggregate --format xlsx --name AccountTriggerTest --file ./coverage/CoverageReport.xlsx
+    sfdx code:coverage -u username@salesforce.com --aggregate --format xlsx --file ./coverage/CoverageReport.xlsx
+    sfdx code:coverage -u username@salesforce.com --aggregate --format html --file ./coverage/CoverageReport.html
+    sfdx code:coverage -u username@salesforce.com --aggregate --format table
+    sfdx code:coverage -u username@salesforce.com --aggregate --format table --name AccountTriggerTest
 ```
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->

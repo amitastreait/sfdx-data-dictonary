@@ -61,6 +61,26 @@ interface fieldInfo{
     referenceTo : Array<String>;
     controllerName : string;
 }
+
+export interface FieldDefinitionResult{
+    totalSize: number;
+    done : boolean;
+    records : Array<FieldDefinition>;
+}
+interface FieldDefinition{
+    Description? : string;
+    ComplianceGroup? : string;
+    BusinessOwnerId? : string;
+    BusinessStatus? : string;
+    SecurityClassification? : string;
+    BusinessOwner? : BusinessOwner;
+    QualifiedApiName? : string;
+}
+
+interface BusinessOwner {
+    Name: string;
+}
+
 export interface pickList{
     label : string;
     value : string;

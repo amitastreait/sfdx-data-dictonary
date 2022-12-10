@@ -1,14 +1,16 @@
 {
   "commandDescription": "print a greeting and your org IDs",
+  "fileNameFlagDescription" : "the name of the file to be written",
   "commandFieldUsageDescription" : "analyse the field usage for a given object and generates a report",
   "commandDataDictonaryDescription": "generates the metadata for the selected object and exports as slsx format",
   "commandQueryDescription": "Executes the selected query and returns the response",
+  "commandPermListDescription": "list all the permissions at profile level for the given object",
   "commandCoverageDescription": "runs and generate the code coverage in given format",
   "nameFlagDescription": "name to print",
   "forceFlagDescription": "boolean flag for force deployment",
   "errorNoOrgResults": "No results found for the org '%s'.",
   "accountNameDescritpion": "name to query",
-  "objFlagDescription": "Name of the object to analyse the field usage",
+  "objFlagDescription": "Name of the object to analyse",
   "pathFlagDescription" : "File Name with full Path to create Excel File",
   "pthFlagDescription" : "full Path to generate the repor file",
   "classFlagDescription" : "class name to get the coverage %",
@@ -17,7 +19,8 @@
   "aggregateFlagDescription" : "Use this flag, if you wanted to get the aggregated code coverage by components",
   "coverageFlagDescription" : "Use this flag, if you wanted to get the code coverage by test methods for components",
   "coveragePathFlagDescription" : "Fully qualified path with file name where you want to store the code coverage in xlsx/html format",
-  "coverageFormatFlagDescription" : "Provide a format in which you want to get the code coverage report. Valid values are table, xlsx & html",
+  "coverageFormatFlagDescription" : "format in which you want to get the code coverage report. Valid values are table, xlsx & html",
+  "formatFlagDescription" : "format in which you want to get the report. Valid values are xlsx & html",
   "examples": [
     "sfdx hello:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com",
     "sfdx hello:org --name myname --targetusername myOrg@example.com"

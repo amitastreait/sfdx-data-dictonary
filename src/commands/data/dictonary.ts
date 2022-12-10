@@ -5,7 +5,7 @@ import { Messages, SfdxError } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 
 /* Import the utilities */
-import { objectDesc, sobjectRes } from '../../scripts/utils';
+import { objectDesc, sobjectRes, FieldDefinitionResult } from '../../scripts/utils';
 import { ValidationRuleResult, ValidationRule } from '../../scripts/validationrule';
 import { FlowResult, Flow } from '../../scripts/flow';
 import { ApexTriggerResult, ApexTrigger} from '../../scripts/apextrigger';
@@ -26,20 +26,13 @@ export default class Dictionary extends SfdxCommand {
     public static examples = [`
         sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "./path/to/file/file.xlsx"
         sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
+        sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" --json
     `];
 
     public static args = [{ name: 'file' }];
 
     protected static flagsConfig = {
         // flag with a value (-n, --name=VALUE)
-        name: flags.string({
-            char: 'n',
-            description: messages.getMessage('nameFlagDescription'),
-        }),
-        force: flags.boolean({
-            char: 'f',
-            description: messages.getMessage('forceFlagDescription'),
-        }),
         path :  flags.string({
             char: 'p',
             description: messages.getMessage('pathFlagDescription')
@@ -63,6 +56,8 @@ export default class Dictionary extends SfdxCommand {
         //const name = (this.flags.name || 'world') as string;
         const objects = this.flags.objects  ;
         const filePath = this.flags.path || "Object-Infos.xlsx" ;
+
+        const classificationMap = {};
         // this.org is guaranteed because requiresUsername=true, as opposed to supportsUsername
         const conn = this.org.getConnection();
 
@@ -88,8 +83,6 @@ export default class Dictionary extends SfdxCommand {
             }
         }
 
-        //
-        //this.ux.startSpinner('Exporting metadata ');
         for(var i =0 ; i< objNames.length; i++){
             this.ux.log('Getting Field Metadata for : '+objNames[i]+' Object.');
             try{
@@ -132,6 +125,17 @@ export default class Dictionary extends SfdxCommand {
                 //this.ux.log(` Apex Triggers => ${JSON.stringify(triggers || {} )}`);
                 objRes.triggers = triggers;
 
+                const dataClassificationQuery = `SELECT Id, QualifiedApiName, DeveloperName, ComplianceGroup, Description, BusinessOwnerId,
+                    BusinessOwner.Name, BusinessStatus, SecurityClassification
+                    FROM FieldDefinition
+                    WHERE EntityDefinition.QualifiedApiName IN ('${objNames[i]}')
+                `;
+                const classificationResult = await conn.request(`/services/data/v56.0/query?q=${dataClassificationQuery}`);
+                const dataClassResult = classificationResult as FieldDefinitionResult;
+                dataClassResult.records.forEach( field => {
+                    classificationMap[field.QualifiedApiName] = field ;
+                });
+
                 combinedMetadata.push(objRes);
             }catch(e){
                 this.ux.log(`Error while fetching object - ${objNames[i]} , Message - ${e.message} `);
@@ -140,7 +144,7 @@ export default class Dictionary extends SfdxCommand {
         }
 
         //this.ux.log(JSON.stringify(combinedMetadata) );
-        excelUtil.createFile(filePath, combinedMetadata, this);
+        excelUtil.createFile(filePath, combinedMetadata, this, classificationMap);
         this.ux.log('Excel File created at - '+filePath);
         this.ux.stopSpinner('Export Completed');
         //this.ux.startSpinner('fetching metadata...');

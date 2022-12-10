@@ -31,4 +31,5 @@ export interface CodeCoveragetable {
     NumLinesUncovered: number;
     Percentage?: string
     TestMethodName?:string;
+    PercentageNumber?: number;
 }

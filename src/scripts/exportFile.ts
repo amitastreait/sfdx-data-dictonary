@@ -11,7 +11,7 @@ import { objectDesc } from './utils';
 */
 
 var headerStyle = null;
-export async function createFile(fileName, combinedMetadata : Array<objectDesc>, context) {
+export async function createFile(fileName, combinedMetadata : Array<objectDesc>, context, classificationMap ) {
 
     // Create a new instance of a Workbook class
     var wb = new xl.Workbook();
@@ -71,7 +71,7 @@ export async function createFile(fileName, combinedMetadata : Array<objectDesc>,
     /**
      * Create separate tab for each object with all field information
      */
-    objectTabs(wb,combinedMetadata);
+    objectTabs(wb,combinedMetadata, classificationMap);
 
     wb.write(fileName);
 
@@ -165,13 +165,13 @@ export async function createFile(fileName, combinedMetadata : Array<objectDesc>,
                     trigger.NamespacePrefix, trigger.IsValid ? "Yes":"No"];
                 addRowsToExcel(ws_Flow , rowNum, excelColumns); */
                 //context.ux.log(`Trigger => ${JSON.stringify(trigger || {} )}`);
-                ws_Flow.cell(rowNum, 1 ).string( objName ) ;
-                ws_Flow.cell(rowNum, 2 ).string( trigger.Name ) ;
-                ws_Flow.cell(rowNum, 3 ).string( trigger.Status ) ;
-                ws_Flow.cell(rowNum, 4 ).number( trigger.ApiVersion ) ;
-                ws_Flow.cell(rowNum, 5 ).date( trigger.CreatedDate ) ;
-                ws_Flow.cell(rowNum, 6 ).date( trigger.LastModifiedDate ) ;
-                ws_Flow.cell(rowNum, 7 ).string( trigger.NamespacePrefix ) ;
+                ws_Flow.cell(rowNum, 1 ).string( objName ? objName : "" ) ;
+                ws_Flow.cell(rowNum, 2 ).string( trigger.Name ? trigger.Name : "" ) ;
+                ws_Flow.cell(rowNum, 3 ).string( trigger.Status ?  trigger.Status : "" ) ;
+                ws_Flow.cell(rowNum, 4 ).number( trigger.ApiVersion ? trigger.ApiVersion : "" ) ;
+                ws_Flow.cell(rowNum, 5 ).date( trigger.CreatedDate ? trigger.CreatedDate : "" ) ;
+                ws_Flow.cell(rowNum, 6 ).date( trigger.LastModifiedDate ? trigger.LastModifiedDate : "" ) ;
+                ws_Flow.cell(rowNum, 7 ).string( trigger.NamespacePrefix ? trigger.NamespacePrefix : "" ) ;
                 ws_Flow.cell(rowNum, 8 ).string( trigger.IsValid ? "Yes":"No" );
 
                 rowNum++;
@@ -190,15 +190,20 @@ export async function createFile(fileName, combinedMetadata : Array<objectDesc>,
      * @param wb
      * @param combinedMetadata
      */
-    function objectTabs(wb,combinedMetadata: Array<objectDesc>){
+    function objectTabs(wb,combinedMetadata: Array<objectDesc>, classificationMap){
         combinedMetadata.forEach(element => {
             var ws =  wb.addWorksheet(element.name);
-            let headers: String[] = ['Label','Name' ,'Help Text'  ,'Is Standard'  ,'Formula' ,'Max Length' ,'Type' ,'Is unique' ,'precision' ,'Scale' ,'Encrypted' ,'ExternalId' ,'PicklistValues' ,
-                                        'Is Creatable' ,'Is Updatable' ,'Is Required', 'Restricted Picklist' ];
+            let headers: String[] = ['Label','Name' ,'Help Text'  ,'Is Standard'  ,'Formula' ,'Max Length',
+                                        'Type' ,'Is unique' ,'precision' ,'Scale' ,'Encrypted' ,'ExternalId' ,'PicklistValues' ,
+                                        'Is Creatable' ,'Is Updatable' ,'Is Required', 'Restricted Picklist',
+                                        'Description', 'Data Sensitivity Level', 'Field Usage', 'Data Owner', 'Compliance Categorization'
+                                    ];
             addHeader(ws,headers,1,headerStyle);
             for(var i = 0; i< element.fields.length; i++){
                 var rowNumber = i+2 ;
                 var isRestPickList = 'NA';
+                let dataClassification = classificationMap [ element.fields[i].name ];
+
                 addString(ws, rowNumber, 1, element.fields[i].label, "label" , element.fields[i]) ;
                 addString(ws, rowNumber, 2, element.fields[i].name , "name" , element.fields[i]) ;
                 addString(ws, rowNumber, 3, element.fields[i].inlineHelpText || "", "inline help text" , element.fields[i]) ;
@@ -225,6 +230,21 @@ export async function createFile(fileName, combinedMetadata : Array<objectDesc>,
                     }
                 }
                 addString(ws, rowNumber, 17,isRestPickList, "Restricted Picklist" , element.fields[i]) ;
+                if(dataClassification){
+                    /* Add data classification fields in the excel sheet */
+                    ws.cell(rowNumber, 18 ).string( dataClassification.Description ? dataClassification.Description as string : "" ) ;
+                    ws.cell(rowNumber, 19 ).string( dataClassification.SecurityClassification ? dataClassification.SecurityClassification as string : "" ) ;
+                    ws.cell(rowNumber, 20 ).string( dataClassification.BusinessStatus ? dataClassification.BusinessStatus as string : "" ) ;
+                    ws.cell(rowNumber, 21 ).string( dataClassification.BusinessOwnerId ? dataClassification.BusinessOwner.Name as string : "" ) ;
+                    ws.cell(rowNumber, 22 ).string( dataClassification.ComplianceGroup as string ? dataClassification.ComplianceGroup : "" ) ;
+                    /*
+                        addString(ws, rowNumber, 18, dataClassification.Description , "Description" , element.fields[i]) ;
+                        addString(ws, rowNumber, 19, dataClassification.SecurityClassification , "Data Sensitivity Level" , element.fields[i]) ;
+                        addString(ws, rowNumber, 20, dataClassification.BusinessStatus , "Field Usage" , element.fields[i]) ;
+                        addString(ws, rowNumber, 21, dataClassification.BusinessOwnerId ? dataClassification.BusinessOwner.Name as string : "" , "Data Owner" , element.fields[i]) ;
+                        addString(ws, rowNumber, 22, dataClassification.ComplianceGroup , "Compliance Categorization" , element.fields[i]) ;
+                    */
+                }
             }
         });
     }
@@ -284,7 +304,7 @@ export async function createFile(fileName, combinedMetadata : Array<objectDesc>,
      * @param ws_Picklist Worksheet instance
      * @param rowNum Row number to be used for adding
      * @param excelColumns List of all columns to be added
-     */
+    */
     function addPickListToExcel(ws,rowNum,excelColumns){
         var colNum = 1;
         excelColumns.forEach(column=>{
@@ -296,7 +316,7 @@ export async function createFile(fileName, combinedMetadata : Array<objectDesc>,
     function addRowsToExcel(ws, rowNum, excelColumns){
         var colNum = 1;
         excelColumns.forEach(column=>{
-            ws.cell(rowNum,colNum).string(column) ;
+            ws.cell(rowNum,colNum).string(column ? column : "") ;
             colNum++;
         });
     }

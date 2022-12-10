@@ -2,7 +2,7 @@
 //import * as os from 'os';
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
-
+var fs = require('fs');
 import { TestCoverageResponse, CodeCoveragetable} from '../../scripts/coverage';
 
 /* import the object of exportFile so that Excel Sheet can be created */
@@ -97,21 +97,28 @@ export default class Coverage extends SfdxCommand {
             };
             const covered = element.Coverage.coveredLines;
             const uncovered = element.Coverage.uncoveredLines;
-            let percent = 0;
+            let percent:number = 0;
+            let initialNumber:number = 0;
             if(covered && uncovered){
                 percent = covered.length / (covered.length + uncovered.length);
                 record.Percentage = percent? ( ( Math.abs( percent ) ) * 100 ).toFixed(0) +'%' : 0+'%';
+                record.PercentageNumber = percent ? parseInt( ( Math.abs( percent ) * 100 ).toFixed(0) ) : initialNumber;
             }
             codeCoverage.push(record);
         });
 
         const tableColumnData = ['ApexClassOrTrigger', 'NumLinesCovered', 'NumLinesUncovered', 'Percentage', 'TestMethodName'];
-        this.ux.log(`report format ${reportFormat}`);
+        //this.ux.log(`report format ${reportFormat}`);
         if(reportFormat === 'table'){
             /* Print the HTML table */
             this.ux.table( codeCoverage, tableColumnData );
         }else if(reportFormat === 'html'){
             /* Prepare the HTML Report for Code Coverage */
+            let codeCoverageReport = excelUtil.generateCodeCoverageReport(codeCoverage);
+            fs.writeFile( fileName , codeCoverageReport, function (err) {
+                if (err) throw err;
+                //console.log('File is created successfully.');
+            });
         }else if(reportFormat === 'xlsx'){
             /* Prepare the XLSX file with the Code Coverage */
             excelUtil.createFile(fileName, codeCoverage, this);

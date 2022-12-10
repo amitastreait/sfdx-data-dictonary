@@ -37,11 +37,11 @@ function TestCoverageTab(wb, codeCoverage : Array<CodeCoveragetable>){
     var col_Offset_InfoSheet = 0; */
 
     codeCoverage.forEach( coverage => {
-        ws_TestCoverage.cell(rowNum, 1 ).string( coverage.ApexClassOrTrigger ) ;
-        ws_TestCoverage.cell(rowNum, 2 ).number( coverage.NumLinesCovered ) ;
-        ws_TestCoverage.cell(rowNum, 3 ).number( coverage.NumLinesUncovered ) ;
-        ws_TestCoverage.cell(rowNum, 4 ).string( coverage.TestMethodName ) ;
-        ws_TestCoverage.cell(rowNum, 5 ).string( coverage.Percentage ) ;
+        ws_TestCoverage.cell(rowNum, 1 ).string( coverage.ApexClassOrTrigger ? coverage.ApexClassOrTrigger : "" ) ;
+        ws_TestCoverage.cell(rowNum, 2 ).number( coverage.NumLinesCovered ? coverage.NumLinesCovered : 0 ) ;
+        ws_TestCoverage.cell(rowNum, 3 ).number( coverage.NumLinesUncovered ? coverage.NumLinesUncovered : 0 ) ;
+        ws_TestCoverage.cell(rowNum, 4 ).string( coverage.TestMethodName ? coverage.TestMethodName : "" ) ;
+        ws_TestCoverage.cell(rowNum, 5 ).string( coverage.Percentage ? coverage.Percentage : "0%" ) ;
         rowNum++;
     });
 }
@@ -52,5 +52,68 @@ function addHeader(ws, headers, rowNumber, headerStyle){
         ws.cell(rowNumber,coulmnNumber).string(element).style(headerStyle);
         coulmnNumber++;
     });
+}
 
+export function generateCodeCoverageReport(codeCoverage : Array<CodeCoveragetable>){
+    let tableContent = '';
+    codeCoverage.forEach( coveage => {
+        tableContent += `<tr>
+            <td> ${coveage.ApexClassOrTrigger} </td>
+            <td> ${coveage.NumLinesCovered} </td>
+            <td> ${coveage.NumLinesUncovered}  </td>
+            <td> ${coveage.TestMethodName}  </td>
+            <td> ${coveage.Percentage}  </td>
+            <td> <div class="bar" style="--percent: ${coveage.PercentageNumber};"></div> </td>
+        </tr>`
+    });
+    return (`
+        <html lang="en">
+            <head>
+                <title>Test Coverage Report</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="icon" type="image/x-icon" href="https://www.pantherschools.com/wp-content/uploads/2022/02/cropped-logoblack.png">
+                <style>
+                    table, th, td {
+                        border: 1px solid black;
+                        border-collapse: collapse;
+                    }
+                    table.center {
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
+                    .bar {
+                        height: 20px;
+                        background-color: #f5f5f5;
+                    }
+                    .bar::before {
+                        content: '';
+                        display: flex;
+                        justify-content: end;
+                        width: calc(var(--percent) * 1%);
+                        height: 100%;
+                        background: #2486ff;
+                        white-space: nowrap;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1></h1>
+                <table class="center">
+                    <thead>
+                        <tr>
+                            <th>Apex Class Or Trigger</th>
+                            <th style="width: 180px;">NumLines Covered</th>
+                            <th style="width: 180px;">NumLines Uncovered</th>
+                            <th style="width: 180px;">TestMethodName</th>
+                            <th style="width: 180px;">Coverage %</th>
+                            <th style="width: 180px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableContent}
+                    </tbody>
+                </table>
+            </body>
+        </html>
+    `);
 }
