@@ -48,7 +48,7 @@
   ],
   "homepage": "https://github.com/amitastreait/sfdx-data-dictonary",
   "keywords": [
-    "sfdx-plugin"
+    "sfdx-plugin, salesforce-dx, export salesforce metadata using sfdx, prepare data disctonary using sfdx"
   ],
   "license": "MIT",
   "oclif": {

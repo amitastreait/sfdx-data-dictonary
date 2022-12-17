@@ -11,6 +11,10 @@ this is a custom plugin to generate the data dictonary for the selected objects
 [![Downloads/week](https://img.shields.io/npm/dw/sfdx-data-dictonary.svg)](https://npmjs.org/package/sfdx-data-dictonary)
 [![License](https://img.shields.io/npm/l/sfdx-data-dictonary.svg)](https://github.com/amitastreait/sfdx-data-dictonary/blob/master/package.json)
 
+## Installation
+```
+sfdx plugins:install sfdx-data-dictonary
+```
 
 ```sh-session
 $ npm install -g sfdx-data-dictonary
@@ -20,7 +24,9 @@ $ sfdx (--version)
 sfdx-data-dictonary/0.0.1 win32-x64 node-v16.13.2
 $ sfdx --help [COMMAND]
 USAGE
-  $ sfdx COMMAND
+  $ sfdx data:dictonary --help
+  $ sfdx code:coverage --help
+  $ sfdx perm:list --help
 ```
 <!-- usagestop -->
 <!-- commands -->
