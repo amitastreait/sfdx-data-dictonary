@@ -67,8 +67,8 @@ EXAMPLES
 ```
 
 ## `Screenshot of output`
-![OjbectPermissions](/.images/Information.png)
-![FieldPermissions](/.images/FieldInformation.png)
+![OjbectPermissions](/.images/Information.PNG)
+![FieldPermissions](/.images/FieldInformation.PNG)
 
 ## `sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -143,8 +143,8 @@ EXAMPLES
       sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx
       sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html
 ```
-![OjbectPermissions](/.images/ObjectPermissions.png)
-![FieldPermissions](/.images/FieldPermissions.png)
+![OjbectPermissions](/.images/ObjectPermissions.PNG)
+![FieldPermissions](/.images/FieldPermissions.PNG)
 
 ## `Thanks`
 I would like to express my gratidute to [Jitendra Zaa Sir](https://github.com/JitendraZaa/Schema-Exporter) for guding me!
