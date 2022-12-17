@@ -9,7 +9,8 @@
     "@salesforce/cli-plugins-testkit": "^3.2.12",
     "@salesforce/command": "^5",
     "@salesforce/core": "^3",
-    "tslib": "^2"
+    "tslib": "^2",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@oclif/test": "^2",
