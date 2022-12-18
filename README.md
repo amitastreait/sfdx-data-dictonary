@@ -86,7 +86,7 @@ EXAMPLES
       sfdx code:coverage -u username@salesforce.com --aggregate --format table --name AccountTriggerTest
 ```
 
-_See code: [src/commands/code/coverage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.1/src/commands/code/coverage.ts)_
+_See code: [src/commands/code/coverage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.2/src/commands/code/coverage.ts)_
 
 ## `sfdx data:dictonary [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -122,7 +122,7 @@ EXAMPLES
           sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" --json
 ```
 
-_See code: [src/commands/data/dictonary.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.1/src/commands/data/dictonary.ts)_
+_See code: [src/commands/data/dictonary.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.2/src/commands/data/dictonary.ts)_
 
 ## `sfdx field:usage -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -155,7 +155,7 @@ EXAMPLES
           sfdx field:usage -u username-alias -o "Account" -p "./path/to/report/folder"
 ```
 
-_See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.1/src/commands/field/usage.ts)_
+_See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.2/src/commands/field/usage.ts)_
 
 ## `sfdx perm:list -n <string> -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -195,131 +195,6 @@ EXAMPLES
       sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html
 ```
 
-_See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.1/src/commands/perm/list.ts)_
-<!-- commandsstop -->
-* [`sfdx data:dictonary [-n <string>] [-f] [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-datadictonary--n-string--f--p-string--o-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-
-* [`sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-codecoverage--n-string--f--a--c--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-
-* [`sfdx perm:list -n <string> -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-permlist--n-string--o-string--p-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-
-* [`Thanks`](#thanks)
-
-## `sfdx data:dictonary [-n <string>] [-f] [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
-
-generates the metadata for the selected object and exports as slsx format
-
-```
-USAGE
-  $ sfdx data:dictonary [-n <string>] [-f] [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion
-    <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
-
-FLAGS
-  -f, --force                                                                       example boolean flag
-  -n, --name=<value>                                                                name to print
-  -o, --objects=<value>                                                             Comma Seperated API name of objects
-                                                                                    to get field metadata Info
-  -p, --path=<value>                                                                File Name with full Path to create
-                                                                                    Excel File
-  -u, --targetusername=<value>                                                      username or alias for the target
-                                                                                    org; overrides default target org
-  -v, --targetdevhubusername=<value>                                                username or alias for the dev hub
-                                                                                    org; overrides default dev hub org
-  --apiversion=<value>                                                              override the api version used for
-                                                                                    api requests made by this command
-  --json                                                                            format output as json
-  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
-                                                                                    this command invocation
-
-DESCRIPTION
-  generates the metadata for the selected object and exports as slsx format
-
-EXAMPLES
-    sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "/path/to/file/file.xlsx"
-    sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
-```
-
-## `Screenshot of output`
-![OjbectPermissions](/.images/Information.PNG)
-![FieldPermissions](/.images/FieldInformation.PNG)
-
-## `sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
-
-runs and generate the code coverage in given format
-
-```
-USAGE
-  $ sfdx code:coverage [-n <string>] [-f] [-a] [-c] [-v <string>] [-u <string>] [--apiversion <string>] [--json]
-    [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
-
-FLAGS
-  -a, --aggregate                                                                   Use this flag, if you wanted to get
-                                                                                    the aggregated code coverage by
-                                                                                    components
-  -c, --coverage                                                                    Use this flag, if you wanted to get
-                                                                                    the code coverage by test methods
-                                                                                    for components
-  -f, --force                                                                       example boolean flag
-  -n, --name=<value>                                                                name to print
-  -u, --targetusername=<value>                                                      username or alias for the target
-                                                                                    org; overrides default target org
-  -v, --targetdevhubusername=<value>                                                username or alias for the dev hub
-                                                                                    org; overrides default dev hub org
-  --apiversion=<value>                                                              override the api version used for
-                                                                                    api requests made by this command
-  --json                                                                            format output as json
-  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
-                                                                                    this command invocation
-
-DESCRIPTION
-  runs and generate the code coverage in given format
-
-EXAMPLES
-    sfdx code:coverage -u username@salesforce.com --aggregate
-    sfdx code:coverage -u username@salesforce.com --aggregate --json
-    sfdx code:coverage -u username@salesforce.com --aggregate --format xlsx --name AccountTriggerTest --file ./coverage/CoverageReport.xlsx
-    sfdx code:coverage -u username@salesforce.com --aggregate --format xlsx --file ./coverage/CoverageReport.xlsx
-    sfdx code:coverage -u username@salesforce.com --aggregate --format html --file ./coverage/CoverageReport.html
-    sfdx code:coverage -u username@salesforce.com --aggregate --format table
-    sfdx code:coverage -u username@salesforce.com --aggregate --format table --name AccountTriggerTest
-```
-
-## `sfdx perm:list -n <string> -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
-
-lists all the permissions at profile level for the given object
-
-```
-USAGE
-  $ sfdx perm list -n <string> -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel
-    trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
-
-FLAGS
-  -n, --name=<value>                                                                (required) the name of the file to be written
-  -o, --object=<value>                                                              (required) Name of the object to analyse
-  -p, --format=<value>                                                              format in which you want to get the report. Valid values are xlsx & html
-  -u, --targetusername=<value>                                                      username or alias for the target org;
-
-  -v, --targetdevhubusername=<value>                                                username or alias for the dev hub org;
-
-  --apiversion=<value>                                                              override the api version used for api requests made by this command
-  --json                                                                            format output as json
-  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
-
-DESCRIPTION
-  list all the permissions at profile level for the given object & it's all fields
-
-EXAMPLES
-      sfdx perm:list -u utils -o "Account" --json
-      sfdx perm:list -u utils -o "Account"
-      sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html --format html
-      sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx --format xlsx
-      sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx
-      sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html
-```
-![OjbectPermissions](/.images/ObjectPermissions.PNG)
-![FieldPermissions](/.images/FieldPermissions.PNG)
-
-## `Thanks`
-I would like to express my gratidute to [Jitendra Zaa Sir](https://github.com/JitendraZaa/Schema-Exporter) for guding me!
+_See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.2/src/commands/perm/list.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->

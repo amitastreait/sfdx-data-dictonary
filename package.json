@@ -1,7 +1,7 @@
 {
   "name": "sfdx-data-dictonary",
   "description": "this is a custom plugin to generate the data dictonary for the selected objects",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Amit Singh @amitastreait",
   "bugs": "https://github.com/amitastreait/sfdx-data-dictonary/issues",
   "dependencies": {
@@ -10,7 +10,9 @@
     "@salesforce/command": "^5",
     "@salesforce/core": "^3",
     "tslib": "^2",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "excel4node": "^1.8.0",
+    "chai": "^4"
   },
   "devDependencies": {
     "@oclif/test": "^2",
