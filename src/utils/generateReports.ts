@@ -21,6 +21,7 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions){
     let tableContent = '';
     fldPermissions.records.forEach( perm => {
         tableContent += `<tr>
+            <td> ${perm.Field} </td>
             <td> ${perm.Parent.Name} </td>
             <td> ${perm.Parent.Type} </td>
             <td> ${perm.PermissionsRead ? "✔️" : ""}  </td>
@@ -45,10 +46,11 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions){
                 </style>
             </head>
             <body>
-                <h1> Generated using sfdx perm:list -u utils -o "objectname" command</h1>
+                <h1> Generated using sfdx perm:list -u yourusername@salesforce.com -o "objectname" command</h1>
                 <table class="center">
                     <thead>
                         <tr>
+                            <th>Field</th>
                             <th>Parent Name</th>
                             <th style="width: 180px;">Parent Type</th>
                             <th style="width: 180px;">PermissionsRead</th>

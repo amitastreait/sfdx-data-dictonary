@@ -12,7 +12,7 @@
   "accountNameDescritpion": "name to query",
   "objFlagDescription": "Name of the object to analyse",
   "pathFlagDescription" : "File Name with full Path to create Excel File",
-  "pthFlagDescription" : "full Path to generate the repor file",
+  "pthFlagDescription" : "full Path to generate the report file",
   "classFlagDescription" : "class name to get the coverage %",
   "pathDescription" : "Comma Seperated path of the json that contains the data to be imported",
   "objectFlagDescription" : "Comma Seperated API name of objects to get field metadata Info",

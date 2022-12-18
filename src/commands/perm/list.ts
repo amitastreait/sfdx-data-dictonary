@@ -20,12 +20,8 @@ export default class List extends SfdxCommand {
     public static description = messages.getMessage('commandPermListDescription');
 
     public static examples = [`
-    sfdx perm:list -u utils -o "Account" --json
-    sfdx perm:list -u utils -o "Account"
     sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html --format html
     sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx --format xlsx
-    sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx
-    sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html
     `]
 
     public static args = [{ name: 'file' }];
@@ -45,7 +41,7 @@ export default class List extends SfdxCommand {
         format: flags.string({
             char: 'p',
             description: messages.getMessage('formatFlagDescription'),
-            required: false
+            required: true
         }),
     };
 

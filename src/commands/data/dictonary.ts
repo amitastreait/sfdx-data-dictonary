@@ -21,6 +21,7 @@ Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('sfdx-data-dictonary', 'org');
 
 export default class Dictionary extends SfdxCommand {
+
     public static description = messages.getMessage('commandDataDictonaryDescription');
 
     public static examples = [`
@@ -54,6 +55,7 @@ export default class Dictionary extends SfdxCommand {
 
     public async run(): Promise<AnyJson> {
         //const name = (this.flags.name || 'world') as string;
+
         const objects = this.flags.objects  ;
         const filePath = this.flags.path || "Object-Infos.xlsx" ;
 
@@ -94,7 +96,7 @@ export default class Dictionary extends SfdxCommand {
                     ErrorMessage, Active FROM ValidationRule
                     WHERE EntityDefinition.DeveloperName = '${objNames[i]}'
                 `;
-                //this.ux.log(` validationRuleQuery => ${validationRuleQuery} `);
+
                 const validationRuleResults = await conn.request(`/services/data/v56.0/tooling/query?q=${validationRuleQuery}`);
                 let results = validationRuleResults as ValidationRuleResult;
                 let validations    = results.records as ValidationRule[];
@@ -111,7 +113,7 @@ export default class Dictionary extends SfdxCommand {
                 let flow_Results = flowResult as FlowResult;
                 let flows = flow_Results.records as Flow[];
                 objRes.flows = flows;
-                //this.ux.log(` flows => ${JSON.stringify( flows || {} )}`);
+
                 const apexTriggerQuery = `SELECT Id, NamespacePrefix, Name,
                     TableEnumOrId, ApiVersion, Status,
                     IsValid, CreatedDate, LastModifiedDate
@@ -122,7 +124,7 @@ export default class Dictionary extends SfdxCommand {
                 const triggerResult = await conn.request(`/services/data/v56.0/query?q=${apexTriggerQuery}`);
                 let trigger_Results = triggerResult as ApexTriggerResult;
                 let triggers = trigger_Results.records as ApexTrigger[];
-                //this.ux.log(` Apex Triggers => ${JSON.stringify(triggers || {} )}`);
+
                 objRes.triggers = triggers;
 
                 const dataClassificationQuery = `SELECT Id, QualifiedApiName, DeveloperName, ComplianceGroup, Description, BusinessOwnerId,
@@ -143,11 +145,9 @@ export default class Dictionary extends SfdxCommand {
             }
         }
 
-        //this.ux.log(JSON.stringify(combinedMetadata) );
         excelUtil.createFile(filePath, combinedMetadata, this, classificationMap);
         this.ux.log('Excel File created at - '+filePath);
         this.ux.stopSpinner('Export Completed');
-        //this.ux.startSpinner('fetching metadata...');
         return { message : `Excel File created at - ${filePath} `};
     }
 }

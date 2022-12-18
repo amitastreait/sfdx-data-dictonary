@@ -17,12 +17,6 @@ sfdx plugins:install sfdx-data-dictonary
 ```
 
 ```sh-session
-$ npm install -g sfdx-data-dictonary
-$ sfdx COMMAND
-running command...
-$ sfdx (--version)
-sfdx-data-dictonary/0.0.1 win32-x64 node-v16.13.2
-$ sfdx --help [COMMAND]
 USAGE
   $ sfdx data:dictonary --help
   $ sfdx code:coverage --help

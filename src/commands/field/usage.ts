@@ -3,6 +3,9 @@ import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages, SfdxError } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 
+import { objectDesc } from '../../scripts/utils';
+import excelUtil = require('../../utils/exportFieldUsage');
+
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
 
@@ -13,8 +16,9 @@ export default class Usage extends SfdxCommand {
     public static description = messages.getMessage('commandFieldUsageDescription');
 
     public static examples =[`
-        sfdx field:usage -u username-alias -o "Account"
-        sfdx field:usage -u username-alias -o "Account" -p "./path/to/report/folder"
+        sfdx field:usage -u username-alias --object "Account"
+        sfdx field:usage -u username-alias --object "Account" --path "./path/to/report/folder/FieldUsage.xlsx"
+        sfdx field:usage -u username-alias --object "Account" --path "FieldUsage.xlsx"
     `]
 
     public static args = [{ name: 'file' }];
@@ -42,48 +46,75 @@ export default class Usage extends SfdxCommand {
     protected static requiresProject = false;
 
     public async run(): Promise<AnyJson> {
-        const path = (this.flags.path || 'FieldUsage.xlsx') as string;
-        this.ux.log(path);
+
+        const fileName = (this.flags.path || 'FieldUsage.xlsx') as string;
+
         // this.org is guaranteed because requiresUsername=true, as opposed to supportsUsername
         const conn = this.org.getConnection();
-        const query = 'Select Name, TrialExpirationDate from Organization';
 
-        // The type we are querying for
-        interface Organization {
-            Name: string;
-            TrialExpirationDate: string;
+        const objectName = this.flags.object;
+        const query = `Select count(Id) TotalRecords FROM ${objectName}`;
+
+        if(!objectName){
+            throw new SfdxError( ` Please provide the valid object api name `);
         }
 
-        // Query the org
-        const result = await conn.query<Organization>(query);
+        const excludeFields = ['Id', 'IsDeleted', 'MasterRecordId', 'RecordTypeId' , 'BillingGeocodeAccuracy',
+            'BillingAddress', 'ShippingGeocodeAccuracy', 'ShippingAddress', 'CreatedDate', 'CreatedById',
+            'LastModifiedDate', 'LastModifiedById','SystemModstamp','LastActivityDate' ,'LastViewedDate','LastReferencedDate',
+            'IsPartner', 'OwnerId', 'IsCustomerPortal'
+        ];
+        let countQuery = `SELECT `;
+        try{
+            let fldResult = await conn.request('/services/data/v55.0/sobjects/'+objectName.trim()+'/describe');
+            var objRes    = fldResult as objectDesc;
+            for(var i = 0; i< objRes.fields.length; i++){
+                let nillable = objRes.fields[i].nillable;
+                if( objRes.fields[i].type !== 'reference'
+                    && objRes.fields[i].type !== 'textarea'
+                    && objRes.fields[i].type !== 'address'
+                    && objRes.fields[i].type !== 'reference'
+                    && nillable
+                    && !objRes.fields[i].calculatedFormula
+                    && !excludeFields.includes(objRes.fields[i].name)
+                ){
+                    countQuery += ` count(${objRes.fields[i].name}) ${objRes.fields[i].name} , `
+                }
+            }
+        }catch(e){
+            this.ux.log(`Error while fetching object - ${objectName} , Message - ${e.message} `);
+            throw new SfdxError( `Error while fetching object - ${objectName} , Message - ${e.message} `);
+        }
+        countQuery = countQuery.substr(0, countQuery.lastIndexOf(','));
+        countQuery += ` FROM ${objectName} `;
+        //this.ux.log(` Count Query \n ${countQuery } `);
 
-        // Organization will always return one result, but this is an example of throwing an error
-        // The output and --json will automatically be handled for you.
+        // Query the org
+        const result = await conn.query(query);
+
         if (!result.records || result.records.length <= 0) {
             throw new SfdxError(messages.getMessage('errorNoOrgResults', [this.org.getOrgId()]));
         }
+        let totalRecords:number = result.records[0]["TotalRecords"];
+        this.ux.log(`Total number of records for ${objectName} are ${totalRecords} `);
 
-        // Organization always only returns one result
-        const orgName = result.records[0].Name;
-        const trialExpirationDate = result.records[0].TrialExpirationDate;
+        const recordCountResult = await conn.query(countQuery);
 
-        let outputString = `Hello World! This is org: ${orgName}`;
-        if (trialExpirationDate) {
-            const date = new Date(trialExpirationDate).toDateString();
-            outputString = `${outputString} and I will be around until ${date}!`;
+        if (!recordCountResult.records || recordCountResult.records.length <= 0) {
+            throw new SfdxError(messages.getMessage('errorNoOrgResults', [this.org.getOrgId()]));
         }
-        this.ux.log(outputString);
+        let counterRecords = recordCountResult.records[0];
+        /*
+            this.ux.log( JSON.stringify(counterRecords ) );
+            for (let key in counrRecords ) {
+                let val:number = counrRecords[key];
+                let percent = (val/totalRecords).toFixed(4);
+            }
+        */
 
-        // this.hubOrg is NOT guaranteed because supportsHubOrgUsername=true, as opposed to requiresHubOrgUsername.
-        if (this.hubOrg) {
-            const hubOrgId = this.hubOrg.getOrgId();
-            this.ux.log(`My hub org id is: ${hubOrgId}`);
-        }
-
-        if (this.flags.force && this.args.file) {
-            this.ux.log(`You input --force and a file: ${this.args.file as string}`);
-        }
+        excelUtil.createFile(fileName, counterRecords, this, totalRecords);
+        this.ux.log(`Field Usage written in ${fileName}`);
         // Return an object to be displayed with --json
-        return { orgId: this.org.getOrgId(), outputString };
+        return { orgId: this.org.getOrgId() };
     }
 }
