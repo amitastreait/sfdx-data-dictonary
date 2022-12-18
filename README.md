@@ -27,7 +27,7 @@ USAGE
 * [`sfdx code:coverage [-n <string>] [-a] [-c] [-p <string>] [-f <string>] [--wait <minutes>] [--notify <url>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-codecoverage--n-string--a--c--p-string--f-string---wait-minutes---notify-url--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 * [`sfdx data:dictonary [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-datadictonary--p-string--o-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 * [`sfdx field:usage -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-fieldusage--o-string--p-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-* [`sfdx perm:list -n <string> -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-permlist--n-string--o-string--p-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx perm:list -n <string> -o <string> -p <string> [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-permlist--n-string--o-string--p-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
 ## `sfdx code:coverage [-n <string>] [-a] [-c] [-p <string>] [-f <string>] [--wait <minutes>] [--notify <url>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -130,7 +130,8 @@ USAGE
 FLAGS
   -o, --object=<value>                                                              (required) Name of the object to
                                                                                     analyse
-  -p, --path=<value>                                                                full Path to generate the repor file
+  -p, --path=<value>                                                                full Path to generate the report
+                                                                                    file
   -u, --targetusername=<value>                                                      username or alias for the target
                                                                                     org; overrides default target org
   -v, --targetdevhubusername=<value>                                                username or alias for the dev hub
@@ -145,19 +146,20 @@ DESCRIPTION
   analyse the field usage for a given object and generates a report
 
 EXAMPLES
-          sfdx field:usage -u username-alias -o "Account"
-          sfdx field:usage -u username-alias -o "Account" -p "./path/to/report/folder"
+          sfdx field:usage -u username-alias --object "Account"
+          sfdx field:usage -u username-alias --object "Account" --path "./path/to/report/folder/FieldUsage.xlsx"
+          sfdx field:usage -u username-alias --object "Account" --path "FieldUsage.xlsx"
 ```
 
 _See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.2/src/commands/field/usage.ts)_
 
-## `sfdx perm:list -n <string> -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+## `sfdx perm:list -n <string> -o <string> -p <string> [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
 list all the permissions at profile level for the given object & it's all fields
 
 ```
 USAGE
-  $ sfdx perm:list -n <string> -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>]
+  $ sfdx perm:list -n <string> -o <string> -p <string> [-v <string>] [-u <string>] [--apiversion <string>]
     [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 FLAGS
@@ -165,8 +167,9 @@ FLAGS
                                                                                     be written
   -o, --object=<value>                                                              (required) Name of the object to
                                                                                     analyse
-  -p, --format=<value>                                                              format in which you want to get the
-                                                                                    report. Valid values are xlsx & html
+  -p, --format=<value>                                                              (required) format in which you want
+                                                                                    to get the report. Valid values are
+                                                                                    xlsx & html
   -u, --targetusername=<value>                                                      username or alias for the target
                                                                                     org; overrides default target org
   -v, --targetdevhubusername=<value>                                                username or alias for the dev hub
@@ -181,12 +184,8 @@ DESCRIPTION
   list all the permissions at profile level for the given object & it's all fields
 
 EXAMPLES
-      sfdx perm:list -u utils -o "Account" --json
-      sfdx perm:list -u utils -o "Account"
       sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html --format html
       sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx --format xlsx
-      sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx
-      sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html
 ```
 
 _See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.2/src/commands/perm/list.ts)_

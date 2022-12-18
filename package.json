@@ -1,7 +1,7 @@
 {
   "name": "sfdx-data-dictonary",
   "description": "this is a custom plugin to generate the data dictonary for the selected objects",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Amit Singh @amitastreait",
   "bugs": "https://github.com/amitastreait/sfdx-data-dictonary/issues",
   "dependencies": {
@@ -50,7 +50,7 @@
   ],
   "homepage": "https://github.com/amitastreait/sfdx-data-dictonary",
   "keywords": [
-    "sfdx-plugin, salesforce-dx, export salesforce metadata using sfdx, prepare data disctonary using sfdx"
+    "sfdx-plugin, salesforce-dx, export salesforce metadata using sfdx, prepare data disctonary using sfdx, generate field usage with sfdx, salesforce field usage"
   ],
   "license": "MIT",
   "oclif": {
