@@ -18,7 +18,11 @@ const messages = Messages.loadMessages('sfdx-data-dictonary', 'org');
 export default class List extends SfdxCommand {
 
     public static description = messages.getMessage('commandPermListDescription');
-
+    /*
+        sfdx perm:list -u utils -o "Account" -n Account-ObjectPermissions.html --format html
+        sfdx perm:list -u utils -o "Contact" -n Contact-ObjectPermissions.html --format html
+        sfdx perm:list -u utils -o "Lead" -n Lead-ObjectPermissions.html --format html
+    */
     public static examples = [`
     sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html --format html
     sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx --format xlsx

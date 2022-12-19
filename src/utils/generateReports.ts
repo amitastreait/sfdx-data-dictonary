@@ -20,10 +20,17 @@ export async function generateHTMLReport(objectName:string, fileName, objPermiss
 function generateFieldPermissionReport(fldPermissions : FieldPermissions, headingTitle){
     let tableContent = '';
     fldPermissions.records.forEach( perm => {
+        let typeText = perm.Parent ? perm.Parent.Type : "";
+        let parentName = perm.Parent ? perm.Parent.Name : "";
+        if(typeText === 'Regular'){
+            typeText = 'Permission Set'
+        }else if(typeText === 'Group'){
+            typeText = 'Permission Set Group'
+        }
         tableContent += `<tr>
             <td> ${perm.Field} </td>
-            <td> ${perm.Parent.Name} </td>
-            <td> ${perm.Parent.Type} </td>
+            <td> ${parentName} </td>
+            <td> ${typeText} </td>
             <td> ${perm.PermissionsRead ? "✔️" : ""}  </td>
             <td> ${perm.PermissionsEdit ? "✔️" : ""}  </td>
         </tr>`
@@ -51,7 +58,7 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions, headin
                     <thead>
                         <tr>
                             <th>Field</th>
-                            <th>Parent Name</th>
+                            <th>Profile/Permission Set Name</th>
                             <th style="width: 180px;">Parent Type</th>
                             <th style="width: 180px;">PermissionsRead</th>
                             <th style="width: 180px;">PermissionsEdit</th>
@@ -69,9 +76,16 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions, headin
 function generateHTMLRepord(objPermissions : ObjectPermissions, headingTitle) {
     let tableContent = '';
     objPermissions.records.forEach( perm => {
+        let typeText = perm.Parent ? perm.Parent.Type : "";
+        let parentName = perm.Parent ? perm.Parent.Name : "";
+        if(typeText === 'Regular'){
+            typeText = 'Permission Set'
+        }else if(typeText === 'Group'){
+            typeText = 'Permission Set Group'
+        }
         tableContent += `<tr>
-            <td> ${perm.Parent.Name} </td>
-            <td> ${perm.Parent.Type} </td>
+            <td> ${parentName} </td>
+            <td> ${typeText} </td>
             <td> ${perm.PermissionsCreate ? "✔️" : ""}  </td>
             <td> ${perm.PermissionsRead ? "✔️" : ""}  </td>
             <td> ${perm.PermissionsEdit ? "✔️" : ""}  </td>
@@ -103,7 +117,7 @@ function generateHTMLRepord(objPermissions : ObjectPermissions, headingTitle) {
                 <table class="center">
                     <thead>
                         <tr>
-                            <th>Parent Name</th>
+                            <th>Profile/Permission Set Name</th>
                             <th style="width: 180px;">Parent Type</th>
                             <th style="width: 180px;">PermissionsCreate</th>
                             <th style="width: 180px;">PermissionsRead</th>
