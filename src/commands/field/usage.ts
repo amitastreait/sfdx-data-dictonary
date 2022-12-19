@@ -46,13 +46,10 @@ export default class Usage extends SfdxCommand {
     protected static requiresProject = false;
 
     public async run(): Promise<AnyJson> {
-
-        const fileName = (this.flags.path || 'FieldUsage.xlsx') as string;
-
         // this.org is guaranteed because requiresUsername=true, as opposed to supportsUsername
         const conn = this.org.getConnection();
-
         const objectName = this.flags.object;
+        const fileName = (this.flags.path || `${objectName}-Field-Usage.xlsx`) as string;
         const query = `Select count(Id) TotalRecords FROM ${objectName}`;
 
         if(!objectName){
@@ -65,6 +62,7 @@ export default class Usage extends SfdxCommand {
             'IsPartner', 'OwnerId', 'IsCustomerPortal'
         ];
         let countQuery = `SELECT `;
+        this.ux.startSpinner('fetching field usage');
         try{
             let fldResult = await conn.request('/services/data/v55.0/sobjects/'+objectName.trim()+'/describe');
             var objRes    = fldResult as objectDesc;
@@ -74,6 +72,7 @@ export default class Usage extends SfdxCommand {
                     && objRes.fields[i].type !== 'textarea'
                     && objRes.fields[i].type !== 'address'
                     && objRes.fields[i].type !== 'reference'
+                    && !objRes.fields[i].encrypted
                     && nillable
                     && !objRes.fields[i].calculatedFormula
                     && !excludeFields.includes(objRes.fields[i].name)
@@ -114,6 +113,7 @@ export default class Usage extends SfdxCommand {
 
         excelUtil.createFile(fileName, counterRecords, this, totalRecords);
         this.ux.log(`Field Usage written in ${fileName}`);
+        this.ux.stopSpinner('');
         // Return an object to be displayed with --json
         return { orgId: this.org.getOrgId() };
     }

@@ -2,22 +2,22 @@ var fs = require('fs');
 import { ObjectPermissions } from '../scripts/objectPermissions';
 import { FieldPermissions } from '../scripts/fieldPermissions';
 
-export async function generateHTMLReport(objectName:string, fileName, objPermissions : ObjectPermissions , fldPermissions : FieldPermissions, context) {
-    let htmlReport = generateHTMLRepord(objPermissions);
+export async function generateHTMLReport(objectName:string, fileName, objPermissions : ObjectPermissions , fldPermissions : FieldPermissions, context, headingTitle) {
+    let htmlReport = generateHTMLRepord(objPermissions, headingTitle);
     context.ux.log(`Generating the html report....`);
     fs.writeFile( fileName , htmlReport, function (err) {
         if (err) throw err;
         //console.log('File is created successfully.');
     });
 
-    let fieldPermissionReport = generateFieldPermissionReport(fldPermissions);
+    let fieldPermissionReport = generateFieldPermissionReport(fldPermissions, headingTitle);
     fs.writeFile( `${objectName}-FieldPermissions.html` , fieldPermissionReport, function (err) {
         if (err) throw err;
         //console.log('File is created successfully.');
     });
 }
 
-function generateFieldPermissionReport(fldPermissions : FieldPermissions){
+function generateFieldPermissionReport(fldPermissions : FieldPermissions, headingTitle){
     let tableContent = '';
     fldPermissions.records.forEach( perm => {
         tableContent += `<tr>
@@ -46,7 +46,7 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions){
                 </style>
             </head>
             <body>
-                <h1> Generated using sfdx perm:list -u yourusername@salesforce.com -o "objectname" command</h1>
+                <h1 style="text-align:center; margin:2px;"> ${headingTitle} </h1>
                 <table class="center">
                     <thead>
                         <tr>
@@ -66,7 +66,7 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions){
     `);
 }
 
-function generateHTMLRepord(objPermissions : ObjectPermissions) {
+function generateHTMLRepord(objPermissions : ObjectPermissions, headingTitle) {
     let tableContent = '';
     objPermissions.records.forEach( perm => {
         tableContent += `<tr>
@@ -99,7 +99,7 @@ function generateHTMLRepord(objPermissions : ObjectPermissions) {
                 </style>
             </head>
             <body>
-                <h1> Generated using sfdx perm:list -u utils -o "objectname" command</h1>
+            <h1 style="text-align:center; margin:2px;"> ${headingTitle} </h1>
                 <table class="center">
                     <thead>
                         <tr>

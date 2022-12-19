@@ -32,12 +32,13 @@ function fieldUsageTab(wb, totalRecords, context, totalCount ){
             //context.ux.log( key );
             let val:number = totalRecords[key];
             let percent = (val/totalCount).toFixed(4);
+            let finalPercentage = parseFloat(percent)*100;
             //context.ux.log( val );
             //context.ux.log( percent );
             //console.log( parseInt(percent)*100  );
             ws_fieldUsage.cell(rowNum, 1 ).string( key ) ;
             ws_fieldUsage.cell(rowNum, 2 ).number( val ) ;
-            ws_fieldUsage.cell(rowNum, 3 ).string( `${percent}%` ) ;
+            ws_fieldUsage.cell(rowNum, 3 ).string( `${finalPercentage.toFixed(2)}%` ) ;
             rowNum++;
         }
     }

@@ -54,7 +54,7 @@ function addHeader(ws, headers, rowNumber, headerStyle){
     });
 }
 
-export function generateCodeCoverageReport(codeCoverage : Array<CodeCoveragetable>){
+export function generateCodeCoverageReport(codeCoverage : Array<CodeCoveragetable>, headingTitle){
     let tableContent = '';
     codeCoverage.forEach( coveage => {
         tableContent += `<tr>
@@ -97,7 +97,7 @@ export function generateCodeCoverageReport(codeCoverage : Array<CodeCoveragetabl
                 </style>
             </head>
             <body>
-                <h1></h1>
+                <h1 style="text-align:center; margin:2px;"> ${headingTitle} </h1>
                 <table class="center">
                     <thead>
                         <tr>

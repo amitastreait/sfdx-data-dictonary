@@ -1,7 +1,7 @@
 {
   "name": "sfdx-data-dictonary",
   "description": "this is a custom plugin to generate the data dictonary for the selected objects",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Amit Singh @amitastreait",
   "bugs": "https://github.com/amitastreait/sfdx-data-dictonary/issues",
   "dependencies": {

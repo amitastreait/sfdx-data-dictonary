@@ -80,7 +80,7 @@ EXAMPLES
       sfdx code:coverage -u username@salesforce.com --aggregate --format table --name AccountTriggerTest
 ```
 
-_See code: [src/commands/code/coverage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.3/src/commands/code/coverage.ts)_
+_See code: [src/commands/code/coverage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.4/src/commands/code/coverage.ts)_
 
 ## `sfdx data:dictonary [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -116,7 +116,7 @@ EXAMPLES
           sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" --json
 ```
 
-_See code: [src/commands/data/dictonary.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.3/src/commands/data/dictonary.ts)_
+_See code: [src/commands/data/dictonary.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.4/src/commands/data/dictonary.ts)_
 
 ## `sfdx field:usage -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -151,7 +151,7 @@ EXAMPLES
           sfdx field:usage -u username-alias --object "Account" --path "FieldUsage.xlsx"
 ```
 
-_See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.3/src/commands/field/usage.ts)_
+_See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.4/src/commands/field/usage.ts)_
 
 ## `sfdx perm:list -n <string> -o <string> -p <string> [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -188,6 +188,6 @@ EXAMPLES
       sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx --format xlsx
 ```
 
-_See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.3/src/commands/perm/list.ts)_
+_See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.4/src/commands/perm/list.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->

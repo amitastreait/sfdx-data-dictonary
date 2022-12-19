@@ -91,7 +91,8 @@ export default class List extends SfdxCommand {
             throw new SfdxError(messages.getMessage('errorNoOrgResults', [this.org.getOrgId()]));
         }
         if(reportFormat === 'html'){
-            reportUtil.generateHTMLReport(objectName, fileName, result, fieldResult, this );
+            let headingTitle = `This report was generated using sfdx perm:list -u ${conn.getUsername()} --object ${objectName} --name ${fileName} --format html command`;
+            reportUtil.generateHTMLReport(objectName, fileName, result, fieldResult, this, headingTitle );
             this.ux.log(`Object permissions has been written to ${fileName} file!`);
             this.ux.log(`Field permissions has been written to ${objectName}-FieldPermissions.html file!`);
         }else{

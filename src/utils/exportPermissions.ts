@@ -23,10 +23,12 @@ export async function createFile(fileName, objPermissions : ObjectPermissions , 
 }
 
 function ObjectPermissionTab(wb, objPermissions : ObjectPermissions ){
+
     var ws_ObjectPermissions = wb.addWorksheet("Object Permissions");
     let headers: String[] = ['Parent Name', 'Parent Type', 'PermissionsCreate', 'PermissionsRead',
         'PermissionsEdit', 'PermissionsDelete', 'PermissionsViewAllRecords', 'PermissionsModifyAllRecords'
     ];
+
     addHeader(ws_ObjectPermissions, headers, 1, headerStyle);
     var rowNum = 2;
     objPermissions.records.forEach( perm => {
@@ -40,6 +42,7 @@ function ObjectPermissionTab(wb, objPermissions : ObjectPermissions ){
         ws_ObjectPermissions.cell(rowNum, 8 ).string( perm.PermissionsModifyAllRecords ? "✔️" : "" ) ;
         rowNum++;
     });
+
 }
 
 function FieldPermissionTab(wb, fldPermissions : FieldPermissions ){

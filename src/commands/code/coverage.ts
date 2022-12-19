@@ -71,6 +71,7 @@ export default class Coverage extends SfdxCommand {
 
         // this.org is guaranteed because requiresUsername=true, as opposed to supportsUsername
         const conn = this.org.getConnection();
+
 		const name = this.flags.name;
         const fileName = this.flags.file || 'CodeCoverageReport.xlsx';
         const reportFormat = this.flags.format || 'table';
@@ -90,7 +91,7 @@ export default class Coverage extends SfdxCommand {
         //
         testClassCoverage.records.forEach(element => {
             let record: CodeCoveragetable = {
-                ApexClassOrTrigger : element.ApexClassOrTrigger.Name,
+                ApexClassOrTrigger : element.ApexClassOrTrigger ? element.ApexClassOrTrigger.Name : "",
                 NumLinesCovered : element.NumLinesCovered,
                 NumLinesUncovered : element.NumLinesUncovered,
                 TestMethodName : element.TestMethodName ? element.TestMethodName : ""
@@ -114,7 +115,8 @@ export default class Coverage extends SfdxCommand {
             this.ux.table( codeCoverage, tableColumnData );
         }else if(reportFormat === 'html'){
             /* Prepare the HTML Report for Code Coverage */
-            let codeCoverageReport = excelUtil.generateCodeCoverageReport(codeCoverage);
+            let headingTitle = `This report was generated using sfdx perm:list -u ${conn.getUsername()} --name ${fileName} --format html command`;
+            let codeCoverageReport = excelUtil.generateCodeCoverageReport(codeCoverage, headingTitle);
             fs.writeFile( fileName , codeCoverageReport, function (err) {
                 if (err) throw err;
                 //console.log('File is created successfully.');
