@@ -5,16 +5,18 @@ this is a custom plugin to generate the data dictonary for the selected objects
 
 [![Version](https://img.shields.io/npm/v/sfdx-data-dictonary.svg)](https://npmjs.org/package/sfdx-data-dictonary)
 [![CircleCI](https://circleci.com/gh/amitastreait/sfdx-data-dictonary/tree/master.svg?style=shield)](https://circleci.com/gh/amitastreait/sfdx-data-dictonary/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/amitastreait/sfdx-data-dictonary?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/sfdx-data-dictonary/branch/master)
 [![Greenkeeper](https://badges.greenkeeper.io/amitastreait/sfdx-data-dictonary.svg)](https://greenkeeper.io/)
-[![Known Vulnerabilities](https://snyk.io/test/github/amitastreait/sfdx-data-dictonary/badge.svg)](https://snyk.io/test/github/amitastreait/sfdx-data-dictonary)
 [![Downloads/week](https://img.shields.io/npm/dw/sfdx-data-dictonary.svg)](https://npmjs.org/package/sfdx-data-dictonary)
 [![License](https://img.shields.io/npm/l/sfdx-data-dictonary.svg)](https://github.com/amitastreait/sfdx-data-dictonary/blob/master/package.json)
 
 ## Installation
 ```
 sfdx plugins:install sfdx-data-dictonary
+
 ```
+## Issues
+
+[Report Here](https://github.com/amitastreait/sfdx-data-dictonary/issues)
 
 ```sh-session
 USAGE

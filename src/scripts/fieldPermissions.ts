@@ -18,4 +18,8 @@ export interface FieldPermission {
 interface Parent {
     Name: string;
     Type: string;
+    Profile: Profile;
+}
+interface Profile{
+    Name: string;
 }

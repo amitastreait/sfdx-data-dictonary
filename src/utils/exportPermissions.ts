@@ -25,21 +25,34 @@ export async function createFile(fileName, objPermissions : ObjectPermissions , 
 function ObjectPermissionTab(wb, objPermissions : ObjectPermissions ){
 
     var ws_ObjectPermissions = wb.addWorksheet("Object Permissions");
-    let headers: String[] = ['Parent Name', 'Parent Type', 'PermissionsCreate', 'PermissionsRead',
+    let headers: String[] = ['Profile/Permission Set Name', 'Parent Type', 'sObject Name', 'PermissionsCreate', 'PermissionsRead',
         'PermissionsEdit', 'PermissionsDelete', 'PermissionsViewAllRecords', 'PermissionsModifyAllRecords'
     ];
 
     addHeader(ws_ObjectPermissions, headers, 1, headerStyle);
     var rowNum = 2;
     objPermissions.records.forEach( perm => {
-        ws_ObjectPermissions.cell(rowNum, 1 ).string( perm.Parent.Name ) ;
-        ws_ObjectPermissions.cell(rowNum, 2 ).string( perm.Parent.Type ) ;
-        ws_ObjectPermissions.cell(rowNum, 3 ).string( perm.PermissionsCreate ? "✔️" : "" ) ;
-        ws_ObjectPermissions.cell(rowNum, 4 ).string( perm.PermissionsRead ? "✔️" : "" ) ;
-        ws_ObjectPermissions.cell(rowNum, 5 ).string( perm.PermissionsEdit ? "✔️" : "" ) ;
-        ws_ObjectPermissions.cell(rowNum, 6 ).string( perm.PermissionsDelete ? "✔️" : "" ) ;
-        ws_ObjectPermissions.cell(rowNum, 7 ).string( perm.PermissionsViewAllRecords ? "✔️" : "" ) ;
-        ws_ObjectPermissions.cell(rowNum, 8 ).string( perm.PermissionsModifyAllRecords ? "✔️" : "" ) ;
+
+        let typeText = perm.Parent ? perm.Parent.Type : "";
+        let parentName = perm.Parent ? perm.Parent.Name : "";
+        if(perm.Parent && perm.Parent.Profile && perm.Parent.Profile.Name){
+            parentName = perm.Parent.Profile.Name;
+        }
+        if(typeText === 'Regular'){
+            typeText = 'Permission Set'
+        }else if(typeText === 'Group'){
+            typeText = 'Permission Set Group'
+        }
+
+        ws_ObjectPermissions.cell(rowNum, 1 ).string( parentName ) ;
+        ws_ObjectPermissions.cell(rowNum, 2 ).string( typeText ) ;
+        ws_ObjectPermissions.cell(rowNum, 3 ).string( perm.SobjectType ) ;
+        ws_ObjectPermissions.cell(rowNum, 4 ).string( perm.PermissionsCreate ? "✔️" : "" ) ;
+        ws_ObjectPermissions.cell(rowNum, 5 ).string( perm.PermissionsRead ? "✔️" : "" ) ;
+        ws_ObjectPermissions.cell(rowNum, 6 ).string( perm.PermissionsEdit ? "✔️" : "" ) ;
+        ws_ObjectPermissions.cell(rowNum, 7 ).string( perm.PermissionsDelete ? "✔️" : "" ) ;
+        ws_ObjectPermissions.cell(rowNum, 8 ).string( perm.PermissionsViewAllRecords ? "✔️" : "" ) ;
+        ws_ObjectPermissions.cell(rowNum, 9 ).string( perm.PermissionsModifyAllRecords ? "✔️" : "" ) ;
         rowNum++;
     });
 
@@ -47,19 +60,31 @@ function ObjectPermissionTab(wb, objPermissions : ObjectPermissions ){
 
 function FieldPermissionTab(wb, fldPermissions : FieldPermissions ){
     var ws_FieldPermission = wb.addWorksheet("Field Permissions Coverage");
-    let headers: String[] = ['Parent.Name', 'Parent.Type', 'Field', 'PermissionsEdit', 'PermissionsRead', 'SobjectType' ];
+    let headers: String[] = ['Profile/Permission Set Name', 'Parent Type','sObject Name', 'Field', 'PermissionsEdit', 'PermissionsRead', 'SobjectType' ];
 
     addHeader(ws_FieldPermission, headers, 1, headerStyle);
 
     var rowNum = 2;
 
     fldPermissions.records.forEach( perm => {
-        ws_FieldPermission.cell(rowNum, 1 ).string( perm.Parent.Name ) ;
-        ws_FieldPermission.cell(rowNum, 2 ).string( perm.Parent.Type ) ;
-        ws_FieldPermission.cell(rowNum, 3 ).string( perm.Field ) ;
-        ws_FieldPermission.cell(rowNum, 4 ).string( perm.PermissionsEdit ? "✔️" : "" ) ;
-        ws_FieldPermission.cell(rowNum, 5 ).string( perm.PermissionsRead ? "✔️" : "" ) ;
-        ws_FieldPermission.cell(rowNum, 6 ).string( perm.SobjectType ) ;
+
+        let typeText = perm.Parent ? perm.Parent.Type : "";
+        let parentName = perm.Parent ? perm.Parent.Name : "";
+        if(perm.Parent && perm.Parent.Profile && perm.Parent.Profile.Name){
+            parentName = perm.Parent.Profile.Name;
+        }
+        if(typeText === 'Regular'){
+            typeText = 'Permission Set'
+        }else if(typeText === 'Group'){
+            typeText = 'Permission Set Group'
+        }
+        ws_FieldPermission.cell(rowNum, 1 ).string( parentName ) ;
+        ws_FieldPermission.cell(rowNum, 2 ).string( typeText ) ;
+        ws_FieldPermission.cell(rowNum, 3 ).string( perm.SobjectType ) ;
+        ws_FieldPermission.cell(rowNum, 4 ).string( perm.Field ) ;
+        ws_FieldPermission.cell(rowNum, 5 ).string( perm.PermissionsEdit ? "✔️" : "" ) ;
+        ws_FieldPermission.cell(rowNum, 6 ).string( perm.PermissionsRead ? "✔️" : "" ) ;
+        ws_FieldPermission.cell(rowNum, 7 ).string( perm.SobjectType ) ;
         rowNum++;
     });
 

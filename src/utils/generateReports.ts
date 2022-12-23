@@ -2,7 +2,7 @@ var fs = require('fs');
 import { ObjectPermissions } from '../scripts/objectPermissions';
 import { FieldPermissions } from '../scripts/fieldPermissions';
 
-export async function generateHTMLReport(objectName:string, fileName, objPermissions : ObjectPermissions , fldPermissions : FieldPermissions, context, headingTitle) {
+export async function generateHTMLReport(objectName:string, fileName, objPermissions : ObjectPermissions , fldPermissions : FieldPermissions, context, headingTitle, fieldPermissionsName) {
     let htmlReport = generateHTMLRepord(objPermissions, headingTitle);
     context.ux.log(`Generating the html report....`);
     fs.writeFile( fileName , htmlReport, function (err) {
@@ -11,7 +11,7 @@ export async function generateHTMLReport(objectName:string, fileName, objPermiss
     });
 
     let fieldPermissionReport = generateFieldPermissionReport(fldPermissions, headingTitle);
-    fs.writeFile( `${objectName}-FieldPermissions.html` , fieldPermissionReport, function (err) {
+    fs.writeFile( `${fieldPermissionsName}` , fieldPermissionReport, function (err) {
         if (err) throw err;
         //console.log('File is created successfully.');
     });
@@ -22,6 +22,9 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions, headin
     fldPermissions.records.forEach( perm => {
         let typeText = perm.Parent ? perm.Parent.Type : "";
         let parentName = perm.Parent ? perm.Parent.Name : "";
+        if(perm.Parent && perm.Parent.Profile && perm.Parent.Profile.Name){
+            parentName = perm.Parent.Profile.Name;
+        }
         if(typeText === 'Regular'){
             typeText = 'Permission Set'
         }else if(typeText === 'Group'){
@@ -31,6 +34,7 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions, headin
             <td> ${perm.Field} </td>
             <td> ${parentName} </td>
             <td> ${typeText} </td>
+            <td> ${perm.SobjectType} </td>
             <td> ${perm.PermissionsRead ? "✔️" : ""}  </td>
             <td> ${perm.PermissionsEdit ? "✔️" : ""}  </td>
         </tr>`
@@ -60,6 +64,7 @@ function generateFieldPermissionReport(fldPermissions : FieldPermissions, headin
                             <th>Field</th>
                             <th>Profile/Permission Set Name</th>
                             <th style="width: 180px;">Parent Type</th>
+                            <th style="width: 180px;">sOject Name</th>
                             <th style="width: 180px;">PermissionsRead</th>
                             <th style="width: 180px;">PermissionsEdit</th>
                         </tr>
@@ -78,6 +83,9 @@ function generateHTMLRepord(objPermissions : ObjectPermissions, headingTitle) {
     objPermissions.records.forEach( perm => {
         let typeText = perm.Parent ? perm.Parent.Type : "";
         let parentName = perm.Parent ? perm.Parent.Name : "";
+        if(perm.Parent && perm.Parent.Profile && perm.Parent.Profile.Name){
+            parentName = perm.Parent.Profile.Name;
+        }
         if(typeText === 'Regular'){
             typeText = 'Permission Set'
         }else if(typeText === 'Group'){
@@ -86,6 +94,7 @@ function generateHTMLRepord(objPermissions : ObjectPermissions, headingTitle) {
         tableContent += `<tr>
             <td> ${parentName} </td>
             <td> ${typeText} </td>
+            <td> ${perm.SobjectType} </td>
             <td> ${perm.PermissionsCreate ? "✔️" : ""}  </td>
             <td> ${perm.PermissionsRead ? "✔️" : ""}  </td>
             <td> ${perm.PermissionsEdit ? "✔️" : ""}  </td>
@@ -119,6 +128,7 @@ function generateHTMLRepord(objPermissions : ObjectPermissions, headingTitle) {
                         <tr>
                             <th>Profile/Permission Set Name</th>
                             <th style="width: 180px;">Parent Type</th>
+                            <th style="width: 180px;">sOject Name</th>
                             <th style="width: 180px;">PermissionsCreate</th>
                             <th style="width: 180px;">PermissionsRead</th>
                             <th style="width: 180px;">PermissionsEdit</th>

@@ -16,8 +16,24 @@ export interface ObjectPermission{
     PermissionsModifyAllRecords: boolean;
 }
 
-
 interface Parent {
     Name: string;
     Type: string;
+    Profile: Profile
+}
+
+export interface ProfileResponse{
+    totalSize: number;
+    done: boolean;
+    records: Array<Response>
+}
+
+interface Response{
+    ProfileId: string;
+    Profile: Profile
+}
+
+interface Profile{
+    ProfileId: string;
+    Name: string;
 }
