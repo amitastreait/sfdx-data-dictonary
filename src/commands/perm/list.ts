@@ -223,14 +223,16 @@ export default class List extends SfdxCommand {
 
         const fldPermissions = await conn.query(`${fieldPermissionsQuery}`);
         //this.ux.log(fieldPermissionsQuery);
-        this.ux.log(`generating the permission reports in ${reportFormat}`)
+        this.ux.log(`generating the permission matrix in ${reportFormat}`)
         let fieldResult = fldPermissions as FieldPermissions;
 
         let nextRecordsUrl = fieldResult.nextRecordsUrl
         while(nextRecordsUrl){
+            this.ux.log(`hang-on tight we are baking the matrix for you...`)
             const fldPermissionsNextPage = await conn.request(`${nextRecordsUrl}`);
             const fieldResultNextRecord = fldPermissionsNextPage as FieldPermissions;
             if (fieldResultNextRecord.records && fieldResultNextRecord.records.length > 0) {
+
                 fieldResultNextRecord.records.forEach( perm => {
                     fieldResult.records.push( perm );
                 });
@@ -276,28 +278,33 @@ export default class List extends SfdxCommand {
 
             let fieldPermissionsName = `${objectName}-FieldPermissions.html`;
             let headingTitle = `This report was generated using sfdx perm:list -u ${conn.getUsername()} `;
-
+            let finalFileName = '';
             if(objectName){
                 headingTitle += `--object ${objectName} `;
+                finalFileName = `${objectName}-${fileName}`;
             }
 
             if(userName){
                 fieldPermissionsName = `${userName}-FieldPermissions.html`;
-                fileName = `${userName}-ObjectPermissions.html`;
+                finalFileName = `${userName}-ObjectPermissions.html`;
                 headingTitle += `--touser ${userName} `
             }
 
-            if(fileName){
-                headingTitle += `--name ${fileName} `;
+            if(finalFileName){
+                headingTitle += `--name ${finalFileName} `;
             }
 
             headingTitle += `--format ${reportFormat} command`;
 
-            reportUtil.generateHTMLReport(objectName, fileName, result, fieldResult, this, headingTitle, fieldPermissionsName);
-            this.ux.log(`Object permissions has been written to ${fileName} file!`);
+            reportUtil.generateHTMLReport(objectName, finalFileName, result, fieldResult, this, headingTitle, fieldPermissionsName);
+            this.ux.log(`Object permissions has been written to ${finalFileName} file!`);
             this.ux.log(`Field permissions has been written to ${fieldPermissionsName} file!`);
         }else{
-            excelUtil.createFile(fileName, result, fieldResult, this );
+            let finalFileName = '';
+            if(objectName){
+                finalFileName = `${objectName}-${fileName}`;
+            }
+            excelUtil.createFile(finalFileName, result, fieldResult, this );
             this.ux.log(`Object permissions has been written to ${fileName}.`);
         }
 

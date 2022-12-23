@@ -23,13 +23,14 @@ USAGE
   $ sfdx data:dictonary --help
   $ sfdx code:coverage --help
   $ sfdx perm:list --help
+  $ sfdx field:usage --help
 ```
 <!-- usagestop -->
 <!-- commands -->
 * [`sfdx code:coverage [-n <string>] [-a] [-c] [-p <string>] [-f <string>] [--wait <minutes>] [--notify <url>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-codecoverage--n-string--a--c--p-string--f-string---wait-minutes---notify-url--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 * [`sfdx data:dictonary [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-datadictonary--p-string--o-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 * [`sfdx field:usage -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-fieldusage--o-string--p-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-* [`sfdx perm:list -n <string> -o <string> -p <string> [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-permlist--n-string--o-string--p-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx perm:list -n <string> -f <string> [-o <string>] [-t <string>] [-p <string>] [-s <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-permlist--n-string--f-string--o-string--t-string--p-string--s-string--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
 ## `sfdx code:coverage [-n <string>] [-a] [-c] [-p <string>] [-f <string>] [--wait <minutes>] [--notify <url>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -82,7 +83,7 @@ EXAMPLES
       sfdx code:coverage -u username@salesforce.com --aggregate --format table --name AccountTriggerTest
 ```
 
-_See code: [src/commands/code/coverage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.4/src/commands/code/coverage.ts)_
+_See code: [src/commands/code/coverage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.0/src/commands/code/coverage.ts)_
 
 ## `sfdx data:dictonary [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -118,7 +119,7 @@ EXAMPLES
           sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" --json
 ```
 
-_See code: [src/commands/data/dictonary.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.4/src/commands/data/dictonary.ts)_
+_See code: [src/commands/data/dictonary.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.0/src/commands/data/dictonary.ts)_
 
 ## `sfdx field:usage -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -153,25 +154,31 @@ EXAMPLES
           sfdx field:usage -u username-alias --object "Account" --path "FieldUsage.xlsx"
 ```
 
-_See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.4/src/commands/field/usage.ts)_
+_See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.0/src/commands/field/usage.ts)_
 
-## `sfdx perm:list -n <string> -o <string> -p <string> [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+## `sfdx perm:list -n <string> -f <string> [-o <string>] [-t <string>] [-p <string>] [-s <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
 list all the permissions at profile level for the given object & it's all fields
 
 ```
 USAGE
-  $ sfdx perm:list -n <string> -o <string> -p <string> [-v <string>] [-u <string>] [--apiversion <string>]
-    [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+  $ sfdx perm:list -n <string> -f <string> [-o <string>] [-t <string>] [-p <string>] [-s <string>] [-v
+    <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel
+    trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 FLAGS
-  -n, --name=<value>                                                                (required) the name of the file to
-                                                                                    be written
-  -o, --object=<value>                                                              (required) Name of the object to
-                                                                                    analyse
-  -p, --format=<value>                                                              (required) format in which you want
+  -f, --format=<value>                                                              (required) format in which you want
                                                                                     to get the report. Valid values are
                                                                                     xlsx & html
+  -n, --name=<value>                                                                (required) the name of the file to
+                                                                                    be written
+  -o, --object=<value>                                                              Name of the object to analyse
+  -p, --profile=<value>                                                             name of the profile to get the
+                                                                                    permissions
+  -s, --permissionset=<value>                                                       name of the permission set to get
+                                                                                    the permissions
+  -t, --touser=<value>                                                              a valid username for whom you want
+                                                                                    to analyse the permissions
   -u, --targetusername=<value>                                                      username or alias for the target
                                                                                     org; overrides default target org
   -v, --targetdevhubusername=<value>                                                username or alias for the dev hub
@@ -188,8 +195,14 @@ DESCRIPTION
 EXAMPLES
       sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html --format html
       sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx --format xlsx
+      sfdx perm:list -u utils -o "Account" -n ObjectPermissions.html --touser username@org.com --format html
+      sfdx perm:list -u utils -o "Account" -n ObjectPermissions.xlsx --touser username@org.com --format xlsx
+      sfdx perm:list -u utils -n ObjectPermissions.xlsx --format xlsx
+      sfdx perm:list -u utils -n ObjectPermissions.html --format html
+      sfdx perm:list -u utils -n ObjectPermissions.html --format html --profile "System Administrator"
+      sfdx perm:list -u utils -n ObjectPermissions.html --format html --permissionset "Permission Set"
 ```
 
-_See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v0.0.4/src/commands/perm/list.ts)_
+_See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.0/src/commands/perm/list.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
