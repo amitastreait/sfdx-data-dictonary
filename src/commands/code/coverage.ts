@@ -3,7 +3,7 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 var fs = require('fs');
-import { TestCoverageResponse, CodeCoveragetable} from '../../scripts/coverage';
+import { TestCoverageResponse, CodeCoveragetable} from '../../models/coverage';
 
 /* import the object of exportFile so that Excel Sheet can be created */
 import excelUtil = require('../../scripts/exportCoverage');

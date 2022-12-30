@@ -1,5 +1,9 @@
 {
+  
   "commandDescription": "print a greeting and your org IDs",
+  "manifestFlagDescription": "path to package.xml file to generate the package.xml with dependency",
+  "commandMdGenerateDescription": "generates the metadata dependency based the given package.xml",
+  "commandMdReportDescription": "generates the reports where the given metadata is referenced",
   "usrFlagDescription": "a valid username for whom you want to analyse the permissions",
   "profileFlagDescription" : "name of the profile to get the permissions",
   "permFlagDescription" : "name of the permission set to get the permissions",
@@ -15,7 +19,7 @@
   "accountNameDescritpion": "name to query",
   "objFlagDescription": "Name of the object to analyse",
   "pathFlagDescription" : "File Name with full Path to create Excel File",
-  "pthFlagDescription" : "full Path to generate the report file",
+  "pthFlagDescription" : "full Path to generate the output file",
   "classFlagDescription" : "class name to get the coverage %",
   "pathDescription" : "Comma Seperated path of the json that contains the data to be imported",
   "objectFlagDescription" : "Comma Seperated API name of objects to get field metadata Info",

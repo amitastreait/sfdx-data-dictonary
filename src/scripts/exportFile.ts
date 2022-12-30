@@ -1,7 +1,7 @@
 /* eslint-disable*/
 
 var xl = require('excel4node');
-import { objectDesc } from './utils';
+import { objectDesc } from '../models/sObjects';
 
 /**
  *  @description : The method to create the excel file at the given path location

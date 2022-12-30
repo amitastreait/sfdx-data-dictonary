@@ -3,8 +3,8 @@ import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages, SfdxError } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 
-import { objectDesc } from '../../scripts/utils';
-import excelUtil = require('../../utils/exportFieldUsage');
+import { objectDesc } from '../../models/sObjects';
+import excelUtil = require('../../scripts/exportFieldUsage');
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);

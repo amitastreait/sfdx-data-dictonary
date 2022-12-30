@@ -1,5 +1,5 @@
 var xl = require('excel4node');
-import { CodeCoveragetable} from './coverage';
+import { CodeCoveragetable} from '../models/coverage';
 var headerStyle = null;
 export async function createFile(fileName, codeCoverage:Array<CodeCoveragetable>, context) {
     var wb = new xl.Workbook();

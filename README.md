@@ -12,11 +12,12 @@ this is a custom plugin to generate the data dictonary for the selected objects
 ## Installation
 ```
 sfdx plugins:install sfdx-data-dictonary
-
 ```
 ## Issues
 
 [Report Here](https://github.com/amitastreait/sfdx-data-dictonary/issues)
+
+## USAGE
 
 ```sh-session
 USAGE
@@ -83,7 +84,7 @@ EXAMPLES
       sfdx code:coverage -u username@salesforce.com --aggregate --format table --name AccountTriggerTest
 ```
 
-_See code: [src/commands/code/coverage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.0/src/commands/code/coverage.ts)_
+_See code: [src/commands/code/coverage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.1/src/commands/code/coverage.ts)_
 
 ## `sfdx data:dictonary [-p <string>] [-o <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -114,12 +115,13 @@ DESCRIPTION
   trigger, record trigger flows & validation rules
 
 EXAMPLES
-          sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "./path/to/file/file.xlsx"
-          sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
-          sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" --json
+          sfdx data:dictonary -u yourorg@salesforec.com --objects "Account,Lead" -p "./path/to/file/file.xlsx"
+          sfdx data:dictonary -u yourorg@salesforec.com --objects "Account,Lead"
+          sfdx data:dictonary -u yourorg@salesforec.com --objects "Account,Lead" --json
+          sfdx data:dictonary -u yourorg@salesforec.com
 ```
 
-_See code: [src/commands/data/dictonary.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.0/src/commands/data/dictonary.ts)_
+_See code: [src/commands/data/dictonary.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.1/src/commands/data/dictonary.ts)_
 
 ## `sfdx field:usage -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -133,7 +135,7 @@ USAGE
 FLAGS
   -o, --object=<value>                                                              (required) Name of the object to
                                                                                     analyse
-  -p, --path=<value>                                                                full Path to generate the report
+  -p, --path=<value>                                                                full Path to generate the output
                                                                                     file
   -u, --targetusername=<value>                                                      username or alias for the target
                                                                                     org; overrides default target org
@@ -154,7 +156,7 @@ EXAMPLES
           sfdx field:usage -u username-alias --object "Account" --path "FieldUsage.xlsx"
 ```
 
-_See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.0/src/commands/field/usage.ts)_
+_See code: [src/commands/field/usage.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.1/src/commands/field/usage.ts)_
 
 ## `sfdx perm:list -n <string> -f <string> [-o <string>] [-t <string>] [-p <string>] [-s <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -203,6 +205,6 @@ EXAMPLES
       sfdx perm:list -u utils -n ObjectPermissions.html --format html --permissionset "Permission Set"
 ```
 
-_See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.0/src/commands/perm/list.ts)_
+_See code: [src/commands/perm/list.ts](https://github.com/amitastreait/sfdx-data-dictonary/blob/v1.0.1/src/commands/perm/list.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->

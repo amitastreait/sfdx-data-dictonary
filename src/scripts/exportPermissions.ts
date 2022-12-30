@@ -1,6 +1,6 @@
 var xl = require('excel4node');
-import { ObjectPermissions } from '../scripts/objectPermissions';
-import { FieldPermissions } from '../scripts/fieldPermissions';
+import { ObjectPermissions } from '../models/objectPermissions';
+import { FieldPermissions } from '../models/fieldPermissions';
 var headerStyle = null;
 export async function createFile(fileName, objPermissions : ObjectPermissions , fldPermissions : FieldPermissions, context) {
     var wb = new xl.Workbook();

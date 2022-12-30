@@ -1,6 +1,6 @@
 var fs = require('fs');
-import { ObjectPermissions } from '../scripts/objectPermissions';
-import { FieldPermissions } from '../scripts/fieldPermissions';
+import { ObjectPermissions } from '../models/objectPermissions';
+import { FieldPermissions } from '../models/fieldPermissions';
 
 export async function generateHTMLReport(objectName:string, fileName, objPermissions : ObjectPermissions , fldPermissions : FieldPermissions, context, headingTitle, fieldPermissionsName) {
     let htmlReport = generateHTMLRepord(objPermissions, headingTitle);

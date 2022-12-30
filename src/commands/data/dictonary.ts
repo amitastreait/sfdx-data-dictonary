@@ -5,10 +5,10 @@ import { Messages, SfdxError } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 
 /* Import the utilities */
-import { objectDesc, sobjectRes, FieldDefinitionResult } from '../../scripts/utils';
-import { ValidationRuleResult, ValidationRule } from '../../scripts/validationrule';
-import { FlowResult, Flow } from '../../scripts/flow';
-import { ApexTriggerResult, ApexTrigger} from '../../scripts/apextrigger';
+import { objectDesc, sobjectRes, FieldDefinitionResult } from '../../models/sObjects';
+import { ValidationRuleResult, ValidationRule } from '../../models/validationrule';
+import { FlowResult, Flow } from '../../models/flow';
+import { ApexTriggerResult, ApexTrigger} from '../../models/apextrigger';
 
 /* import the object of exportFile so that Excel Sheet can be created */
 import excelUtil = require('../../scripts/exportFile');
@@ -25,9 +25,10 @@ export default class Dictionary extends SfdxCommand {
     public static description = messages.getMessage('commandDataDictonaryDescription');
 
     public static examples = [`
-        sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" -p "./path/to/file/file.xlsx"
-        sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead"
-        sfdx data:dictonary -u yourorg@salesforec.com -o "Account,Lead" --json
+        sfdx data:dictonary -u yourorg@salesforec.com --objects "Account,Lead" -p "./path/to/file/file.xlsx"
+        sfdx data:dictonary -u yourorg@salesforec.com --objects "Account,Lead"
+        sfdx data:dictonary -u yourorg@salesforec.com --objects "Account,Lead" --json
+        sfdx data:dictonary -u yourorg@salesforec.com
     `];
 
     public static args = [{ name: 'file' }];
@@ -59,6 +60,21 @@ export default class Dictionary extends SfdxCommand {
         const objects = this.flags.objects  ;
         const filePath = this.flags.path || "Object-Infos.xlsx" ;
 
+        const excludeObject = [
+            'FeedItem', 'FeedComment', 'FeedLike', 'FeedVote', 'ContentDocument', 'ApexTestRunResult', 'ApexTestSuite', 'ApexTypeImplementor', 'AsyncOperationEvent',
+            'AsyncOperationStatus', 'AttachedContentDocument','AttachedContentNote','Audience','AuraDefinitionBundle','AuraDefinitionBundleInfo','AuraDefinitionInfo',
+            'AuthConfig','AuthConfigProviders','AuthProvider','AuthSession','AuthorizationForm',
+            'ListViewEvent', 'LiveChatButton','LiveChatDeployment', 'MLField', 'MLModel', 'MLModelFactor', 'ApexTestResultLimits', 'AppMenuItem', 'AppTabMember',
+            'Idea', 'IdeaComment', 'ListEmail', 'LoginEvent', 'LoginEventStream', 'LoginIp', 'LoginIpRange', 'Organization','ApexTestResult', 'Approval', 'AssetRelationship',
+            'PackageLicence', 'Partner', 'PermissionSet', 'PermissionSetAssignment', 'PermissionSetEvent', 'Prompt', 'PromptAction', 'ApexPageInfo', 'ApexTestQueueItem',
+            'SearchActivity', 'SearchLayout', 'StaticResource', 'ApexPage','ApexTrigger', 'ApexComponent', 'ApexLog', 'ApexEmailNotification', 'TaskGroup', 'AccountContactRole', 'AggregateResult', 'AdditionalNumber'
+        ];
+
+        const includeObject = [
+            'Account', 'Contact', 'Case', 'Lead', 'Opportunity', 'Product2', 'Order', 'Quote', 'OpportunityLineItem', 'OrderLineItem', 'QuoteLineItem',
+            'Task', 'Event', 'Campaign'
+        ];
+
         const classificationMap = {};
         // this.org is guaranteed because requiresUsername=true, as opposed to supportsUsername
         const conn = this.org.getConnection();
@@ -74,10 +90,25 @@ export default class Dictionary extends SfdxCommand {
             });
         }else{
             try{
+                this.ux.warn(`You have not specified --objects parameter, the command will fetch few standard object & all custom object metadata details! `);
                 const objNameResult = await conn.request('/services/data/v55.0/sobjects');
                 let sObjectRef = objNameResult as sobjectRes;
                 for(var i=0;i<sObjectRef.sobjects.length;i++){
-                    objNames.push(sObjectRef.sobjects[i].name);
+                    let objectApiName = sObjectRef.sobjects[i].name;
+                    let isCustom = sObjectRef.sobjects[i].custom;
+                    let isCustomSetting = sObjectRef.sobjects[i].customSetting;
+                    if( !objectApiName.endsWith('Share') && !objectApiName.endsWith('ChangeEvent') && !objectApiName.endsWith('Feed')
+                        && !objectApiName.endsWith('History') && !objectApiName.endsWith('Tag') && !objectApiName.endsWith('Template')
+                        && !objectApiName.endsWith('Metric') && !objectApiName.endsWith('Limits') && !objectApiName.endsWith('Definition') 
+                        && !objectApiName.endsWith('Job') && !objectApiName.endsWith('Location') 
+                        && !objectApiName.endsWith('Member') && !objectApiName.endsWith('TokenEvent') && !objectApiName.endsWith('Rule') 
+                        && !excludeObject.includes( objectApiName ) && ( 
+                            includeObject.includes( objectApiName ) || isCustom || isCustomSetting
+                        )
+                        && objectApiName.lastIndexOf('__') === objectApiName.indexOf('__')
+                    ){
+                        objNames.push(sObjectRef.sobjects[i].name);
+                    }
                 }
             }catch(e){
                 this.ux.log(` Error encountered while trying to get object names. Possibilities of invalid API version. Error - ${e.message}`);
@@ -90,7 +121,7 @@ export default class Dictionary extends SfdxCommand {
             try{
                 let fldResult = await conn.request('/services/data/v55.0/sobjects/'+objNames[i].trim()+'/describe');
                 var objRes    = fldResult as objectDesc;
-                this.ux.log('Getting validation rule for : '+objNames[i]);
+                
                 const validationRuleQuery   = `Select Id, ValidationName, Description,
                     EntityDefinition.DeveloperName, ErrorDisplayField,
                     ErrorMessage, Active FROM ValidationRule
@@ -108,7 +139,7 @@ export default class Dictionary extends SfdxCommand {
                     WHERE ProcessType IN ('Flow', 'AutoLaunchedFlow')
                     AND TriggerObjectOrEvent.DeveloperName = '${objNames[i].trim()}'
                 `;
-                this.ux.log('Getting record triggered flows for : '+objNames[i]);
+                
                 const flowResult = await conn.request(`/services/data/v56.0/query?q=${flowQuery}`);
                 let flow_Results = flowResult as FlowResult;
                 let flows = flow_Results.records as Flow[];
@@ -120,7 +151,7 @@ export default class Dictionary extends SfdxCommand {
                     FROM ApexTrigger
                     WHERE TableEnumOrId = '${objNames[i].trim()}'
                 `;
-                this.ux.log('Getting Apex Triggers for : '+objNames[i]);
+                
                 const triggerResult = await conn.request(`/services/data/v56.0/query?q=${apexTriggerQuery}`);
                 let trigger_Results = triggerResult as ApexTriggerResult;
                 let triggers = trigger_Results.records as ApexTrigger[];

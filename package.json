@@ -1,7 +1,7 @@
 {
   "name": "sfdx-data-dictonary",
   "description": "this is a custom plugin to generate the data dictonary for the selected objects, generates the permissions matrix, report for field usage for an object",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "Amit Singh @amitastreait",
   "bugs": "https://github.com/amitastreait/sfdx-data-dictonary/issues",
   "dependencies": {
@@ -9,10 +9,11 @@
     "@salesforce/cli-plugins-testkit": "^3.2.12",
     "@salesforce/command": "^5",
     "@salesforce/core": "^3",
-    "tslib": "^2",
-    "yarn": "^1.22.19",
+    "chai": "^4",
     "excel4node": "^1.8.0",
-    "chai": "^4"
+    "fast-xml-parser": "^4.0.12",
+    "tslib": "^2",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@oclif/test": "^2",
@@ -37,7 +38,7 @@
     "rimraf": "^3.0.2",
     "sinon": "10.0.0",
     "ts-node": "^10",
-    "typescript": "4"
+    "typescript": "^4.9.4"
   },
   "engines": {
     "node": ">=14.0.0"

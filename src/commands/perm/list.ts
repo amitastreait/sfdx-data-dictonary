@@ -2,11 +2,11 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages, SfdxError } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
-import { ObjectPermissions, ProfileResponse } from '../../scripts/objectPermissions';
-import { FieldPermissions } from '../../scripts/fieldPermissions';
+import { ObjectPermissions, ProfileResponse } from '../../models/objectPermissions';
+import { FieldPermissions } from '../../models/fieldPermissions';
 
-import excelUtil = require('../../utils/exportPermissions');
-import reportUtil = require('../../utils/generateReports');
+import excelUtil = require('../../scripts/exportPermissions');
+import reportUtil = require('../../scripts/generateReports');
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
