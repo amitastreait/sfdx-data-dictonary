@@ -43,6 +43,10 @@ export default class Dictionary extends SfdxCommand {
             char: 'o',
             description: messages.getMessage('objectFlagDescription')
         }),
+        type : flags.string({
+            char: 't',
+            description: 'Ditermines the type of object. Valid values are Custom and Standard. Custom also includes metadata, custom settings and external objects'
+        }),
     };
 
     // Comment this out if your command does not require an org username
@@ -58,7 +62,12 @@ export default class Dictionary extends SfdxCommand {
         //const name = (this.flags.name || 'world') as string;
 
         const objects = this.flags.objects  ;
+        const objectType = this.flags.type  ;
         const filePath = this.flags.path || "Object-Infos.xlsx" ;
+
+        if(!objects && !objectType){
+            throw new SfdxError( ` Please provide either --objects or --type parameter in the command `);
+        }
 
         const excludeObject = [
             'FeedItem', 'FeedComment', 'FeedLike', 'FeedVote', 'ContentDocument', 'ApexTestRunResult', 'ApexTestSuite', 'ApexTypeImplementor', 'AsyncOperationEvent',
